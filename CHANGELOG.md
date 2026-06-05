@@ -2,6 +2,22 @@
 
 ---
 
+## [0.8.12] — 2026-06-05
+
+### Menu-bar icon
+- Replaced the full-color app icon in the menu bar with a monochrome ghost **template** icon, so it adapts to light/dark menu bars and matches the system's other icons (instead of looking out of place)
+
+---
+
+## [0.8.11] — 2026-06-04
+
+### Version + changelog links
+- Small footer in the Settings panel showing the app version and a **Changelog** link (opens the hosted changelog page)
+- Sidebar footer now shows the version + a Changelog link alongside the library location
+- Version is read from `package.json` so it stays in sync automatically
+
+---
+
 ## [0.8.10] — 2026-06-04
 
 ### Run in the background (menu-bar app)
