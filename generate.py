@@ -107,7 +107,7 @@ html_out = f'''<!DOCTYPE html>
     <h1>Changelog</h1>
     <p class="sub">Release notes for Morgue — a local-first design inspiration manager.</p>
     {''.join(blocks)}
-    <footer>Morgue is built by <a href="https://nexionweb.agency">nexionweb</a>. Questions? <a href="mailto:evan@nexionweb.agency">evan@nexionweb.agency</a></footer>
+    <footer>Morgue is built by <a href="https://nexionweb.agency">nexionweb</a>. For questions: <a href="mailto:support@morgueapp.com">support@morgueapp.com</a></footer>
   </div>
 </body>
 </html>
