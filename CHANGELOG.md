@@ -2,6 +2,13 @@
 
 ---
 
+## [0.8.13] — 2026-06-05
+
+### Custom domain
+- Changelog + privacy pages moving to `morgueapp.com` (`changelog.morgueapp.com`, `privacy.morgueapp.com`); in-app Changelog link now points to `changelog.morgueapp.com`
+
+---
+
 ## [0.8.12] — 2026-06-05
 
 ### Menu-bar icon
