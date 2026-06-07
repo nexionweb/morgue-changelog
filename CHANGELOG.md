@@ -2,6 +2,41 @@
 
 ---
 
+## [0.9.2] — 2026-06-07
+
+### Keyboard-first navigation
+- Drive the whole grid from the keyboard:
+  - **Arrow keys** move a focus ring cell-by-cell (Left/Right) and row-by-row (Up/Down); **Home/End** jump to the first/last asset
+  - **Shift + arrows** extend a multi-selection as you move
+  - **Space** toggles the focused asset in/out of the selection
+  - **Enter** opens the focused image in the lightbox (or selects non-images)
+  - **F** stars/unstars the focused asset; **⌘A / Ctrl+A** selects everything visible
+  - **Delete / Backspace** removes the focused asset or the whole selection
+- The focused cell always scrolls into view, and clicking a card moves keyboard focus there too — so mouse and keyboard stay in sync
+
+---
+
+## [0.9.1] — 2026-06-07
+
+### Bulk operations
+- The multi-select bar now does more than delete. Select multiple assets (Cmd-click / Shift-click) and you can:
+  - **Star / Unstar** the whole selection in one click (toggles based on whether they're all already favorited)
+  - **Add to folder** — pick any folder from a nested list
+  - **Tag** — type to filter existing tags or create a new one on the fly, applied to every selected asset
+- Inline confirmation flashes after each action; selection stays put so you can chain operations (star → tag → move)
+
+---
+
+## [0.9.0] — 2026-06-07
+
+### Color search
+- **Filter your whole library by color.** A new **Color** control in the filter bar opens a swatch board built from the colors actually in your library — click one (or pick a custom color) to show every asset whose palette contains that color
+- Matching uses perceptual color distance with **Exact / Close / Loose** tolerance, so "find me everything with this orange" works even when shades differ slightly
+- Composable with everything else — color stacks on top of folder, tag, favorites, and text-search filters
+- Matches across both images with extracted palettes and standalone palette assets
+
+---
+
 ## [0.8.13] — 2026-06-05
 
 ### Custom domain
