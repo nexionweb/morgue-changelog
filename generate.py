@@ -76,7 +76,7 @@ html_out = f'''<!DOCTYPE html>
     -webkit-font-smoothing:antialiased; }}
   .wrap {{ max-width:760px; margin:0 auto; padding:56px 24px 110px; }}
   .badge {{ display:inline-flex; align-items:center; gap:10px; margin-bottom:26px; }}
-  .badge .dot {{ width:30px; height:30px; border-radius:8px; background:var(--accent); display:flex; align-items:center; justify-content:center; }}
+  .badge .appicon {{ width:32px; height:32px; border-radius:22%; display:block; box-shadow:0 1px 3px rgba(0,0,0,0.2); }}
   .badge .bname {{ font-family:var(--mono); font-weight:700; letter-spacing:0.12em; font-size:13px; text-transform:uppercase; }}
   h1 {{ font-size:32px; letter-spacing:-0.02em; margin:0 0 6px; }}
   .sub {{ color:var(--muted); font-size:14px; margin:0 0 40px; }}
@@ -101,7 +101,7 @@ html_out = f'''<!DOCTYPE html>
 <body>
   <div class="wrap">
     <div class="badge">
-      <span class="dot"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a7 7 0 0 0-7 7v10.5a.5.5 0 0 0 .8.4l1.7-1.3 1.7 1.3a.5.5 0 0 0 .6 0l1.7-1.3 1.7 1.3a.5.5 0 0 0 .6 0l1.7-1.3 1.7 1.3a.5.5 0 0 0 .8-.4V9a7 7 0 0 0-7-7Zm-2.2 8.2a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Zm4.4 0a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Z"/></svg></span>
+      <img class="appicon" src="icon.png" alt="Morgue app icon" />
       <span class="bname">Morgue</span>
     </div>
     <h1>Changelog</h1>

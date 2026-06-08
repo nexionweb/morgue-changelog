@@ -2,6 +2,25 @@
 
 ---
 
+## [0.10.1] — 2026-06-08
+
+### Export & branding polish
+- Exported galleries now have a **Save as PDF** button right on the page — click it to open the print dialog straight to PDF, no menu-hunting
+- The **Morgue app icon** (rounded like an app icon) now appears on exported galleries, the changelog, and the privacy policy, replacing the old generated mark
+
+---
+
+## [0.10.0] — 2026-06-08
+
+### Export gallery
+- New **Export** button in the toolbar turns the current view into a **self-contained, shareable HTML gallery** — one file, no dependencies, perfect for sending a client or teammate
+- Exports exactly what you see: any folder, tag, color filter, or All Assets — images, palettes, and fonts together, titled by the current view
+- Each item carries its **source link, attached color swatches, fonts, and tags**; images are embedded directly so the file works offline and anywhere
+- Themed to match Morgue (and **print-to-PDF friendly** — open it and Save as PDF for a polished deck)
+- After exporting, the file is revealed in Finder
+
+---
+
 ## [0.9.10] — 2026-06-08
 
 ### Hover font inspector (extension)
