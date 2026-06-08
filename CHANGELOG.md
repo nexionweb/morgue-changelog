@@ -2,6 +2,43 @@
 
 ---
 
+## [0.11.3] — 2026-06-08
+
+### Board zoom control
+- The board zoom **+ / −** buttons now step in clean **5% increments**
+- You can also **type an exact zoom %** right in the box (Enter to apply, Esc to cancel)
+
+---
+
+## [0.11.2] — 2026-06-08
+
+### Board polish
+- Added a **zoom control** in the bottom-right of boards — current percentage on top, **+ / −** below (click the percentage to reset to 100%)
+- The right info panel is now **hidden on boards**, giving the canvas the full width
+- Fixed **color palettes (and color blocks) disappearing when saving a board or gallery to PDF** — background colors now print correctly
+
+---
+
+## [0.11.1] — 2026-06-08
+
+### Board improvements
+- Assets now drop onto a board at their **real aspect ratio** (no more cropped hero images), and resizing **keeps that ratio** so the whole image stays visible as you scale
+- Board images now show in full (contained) rather than cropped to fill
+- New **Export** button on boards — saves the board's spatial layout as a self-contained, shareable HTML page (with a Save as PDF button), preserving each item's position, size, and stacking
+
+---
+
+## [0.11.0] — 2026-06-08
+
+### Moodboards
+- New **Boards** section in the sidebar — create freeform canvases to arrange your inspiration spatially instead of in a grid
+- **Add assets from your library** onto a board, then **drag to move, drag the corner to resize, and layer** them (bring forward / send back)
+- **Pan** by dragging the canvas and **zoom** with the scroll wheel (zoom centers on your cursor); a reset button returns to 100%
+- Select an item to move/resize/layer/remove it; **Delete** removes it from the board (the asset stays in your library). Everything is saved automatically
+- Rename a board by double-clicking it; delete a board without touching its assets
+
+---
+
 ## [0.10.1] — 2026-06-08
 
 ### Export & branding polish
