@@ -2,6 +2,69 @@
 
 ---
 
+## [0.16.0] — 2026-06-08
+
+### Browse your library by font
+- New **Fonts** section in the sidebar lists every typeface across your library — saved fonts plus fonts detected on your assets — each previewed **in its own typeface** with a count
+- **Click a font** to filter the grid to everything that uses it (the saved font swatch and any asset it appears on)
+- The list updates automatically as you capture new fonts, and the section collapses like Folders/Boards/Tags
+
+---
+
+## [0.15.0] — 2026-06-08
+
+### Unified search
+- The library search now matches across **name, source site, notes, tags, and fonts** — not just names. So you can find everything you saved from a site by typing its domain, or pull up every asset using a given typeface
+- **Fonts are now searchable** — search a font family and you'll get the saved font plus any asset it was detected on
+- **Multi-word search** narrows results: every word you type must match somewhere (e.g. `figma hero` finds assets that match both)
+
+---
+
+## [0.14.3] — 2026-06-08
+
+### Board drag polish
+- Boards now show a **drag-handle (grip dots)** on the left, matching folders — grab it to reorder
+- A **floating label of the board's name** follows your cursor while dragging, so it's clear what you're moving
+
+---
+
+## [0.14.2] — 2026-06-08
+
+### Fix: board drag-reordering
+- **Dragging boards now actually works** — switched to the same pointer-based drag the folders use (the webview doesn't fire native drag events), so reordering is reliable. Double-click-to-rename and click-to-open are unaffected
+
+---
+
+## [0.14.1] — 2026-06-08
+
+### Reorder boards
+- **Drag boards** in the sidebar to reorder them — a drop indicator shows where it'll land, and the order is saved
+
+---
+
+## [0.14.0] — 2026-06-08
+
+### Board: connectors & arrows
+- **Connect two items** with a line or arrow — select exactly two items and hit **Connect** in the toolbar
+- Connectors **follow their items** as you move and resize them, anchoring to the nearest edge
+- **Click a connector** to select it, then recolor it (5 presets), **toggle the arrowhead** on/off, or remove it (**Delete**)
+- Removing an item automatically cleans up any connectors attached to it
+- Connectors are **included in board exports** (and print to PDF) just like everything else
+
+---
+
+## [0.13.0] — 2026-06-08
+
+### Board: floating toolbar + multi-select
+- The board tools now live in a **floating toolbar at the bottom** of the canvas instead of the header — it stays out of the way and surfaces contextual controls (size, color, layering, duplicate, remove) only when something is selected
+- **Multi-select**: shift-click items to add/remove from the selection, or **shift-drag on empty canvas** to rubber-band a group. Move the whole group together in one drag (with snapping)
+- **Duplicate** selected items with the toolbar button or **⌘D**
+- **Copy / paste** items with **⌘C / ⌘V**
+- **Select all** with **⌘A**; **Delete/Backspace** removes everything selected; **Esc** clears the selection
+- Layering (forward/back), text size, and note color now apply to **all selected items** at once
+
+---
+
 ## [0.12.1] — 2026-06-08
 
 ### Board snapping + collapsible sidebar
