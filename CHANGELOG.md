@@ -2,9 +2,53 @@
 
 ---
 
+## [0.9.7] — 2026-06-07
+
+### Fixes
+- Fixed the delete confirmation appearing **behind** the duplicate finder (and other modals) — confirmation dialogs now always sit on top, so deleting a duplicate works as expected
+
+---
+
+## [0.9.6] — 2026-06-07
+
+### Better duplicate detection
+- Replaced the difference-hash with a **DCT-based perceptual hash**, which is much more reliable on flat, mostly-white screenshots (like landing-page heroes) where the old hash missed obvious near-duplicates
+- Retuned the Strict / Normal / Loose sensitivity for the new hash; hashes recompute once on the next scan
+
+---
+
+## [0.9.5] — 2026-06-07
+
+### Clickable source URLs
+- The **Source URL** in the asset details panel (and lightbox) is now a real link — click it to open the page in your browser, with a dedicated open-in-browser button next to it
+- Editing the URL moved to a small pencil button, so a single click opens the page instead of dropping into edit mode
+- Bare URLs without a scheme are opened as `https://` automatically
+
+---
+
+## [0.9.4] — 2026-06-07
+
+### Fixes & polish
+- **Duplicate finder now actually finds duplicates.** Perceptual hashing moved from the browser canvas (which couldn't reliably read image pixels) to native Rust image decoding — identical and near-identical screenshots are detected correctly. Existing hashes are reset once so they recompute accurately
+- Moved the **keyboard-shortcuts** button out of the toolbar (where it sat awkwardly between the item count and column controls) to the top-right of the page header
+
+---
+
+## [0.9.3] — 2026-06-07
+
+### Duplicate finder
+- New **Find Duplicates** entry in the sidebar opens a finder that spots near-identical images across your whole library — not just exact copies, but crops, re-saves, and lightly edited versions
+- Uses a perceptual hash (dHash) computed once per image and cached, so repeat scans are instant
+- **Strict / Normal / Loose** sensitivity lets you dial how aggressively similar images are grouped
+- Each group keeps the **oldest copy** highlighted; delete extras individually or with one click ("Keep oldest · Delete N"), always behind a confirmation
+- Hashes are computed locally on your machine — nothing leaves your device
+
+---
+
 ## [0.9.2] — 2026-06-07
 
 ### Keyboard-first navigation
+- A **keyboard shortcuts** reference now lives in Settings → **Keys**, with a quick-access keyboard icon in the grid toolbar
 - Drive the whole grid from the keyboard:
   - **Arrow keys** move a focus ring cell-by-cell (Left/Right) and row-by-row (Up/Down); **Home/End** jump to the first/last asset
   - **Shift + arrows** extend a multi-selection as you move

@@ -52,11 +52,51 @@
     
     <section class="ver latest">
       <div class="ver-head">
-        <span class="num">0.9.2</span>
+        <span class="num">0.9.7</span>
         <span class="pill">LATEST</span>
         <span class="date">2026-06-07</span>
       </div>
-      <h3>Keyboard-first navigation</h3><ul><li class="">Drive the whole grid from the keyboard:</li><li class="sub"><strong>Arrow keys</strong> move a focus ring cell-by-cell (Left/Right) and row-by-row (Up/Down); <strong>Home/End</strong> jump to the first/last asset</li><li class="sub"><strong>Shift + arrows</strong> extend a multi-selection as you move</li><li class="sub"><strong>Space</strong> toggles the focused asset in/out of the selection</li><li class="sub"><strong>Enter</strong> opens the focused image in the lightbox (or selects non-images)</li><li class="sub"><strong>F</strong> stars/unstars the focused asset; <strong>⌘A / Ctrl+A</strong> selects everything visible</li><li class="sub"><strong>Delete / Backspace</strong> removes the focused asset or the whole selection</li><li class="">The focused cell always scrolls into view, and clicking a card moves keyboard focus there too — so mouse and keyboard stay in sync</li></ul>
+      <h3>Fixes</h3><ul><li class="">Fixed the delete confirmation appearing <strong>behind</strong> the duplicate finder (and other modals) — confirmation dialogs now always sit on top, so deleting a duplicate works as expected</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.9.6</span>
+        
+        <span class="date">2026-06-07</span>
+      </div>
+      <h3>Better duplicate detection</h3><ul><li class="">Replaced the difference-hash with a <strong>DCT-based perceptual hash</strong>, which is much more reliable on flat, mostly-white screenshots (like landing-page heroes) where the old hash missed obvious near-duplicates</li><li class="">Retuned the Strict / Normal / Loose sensitivity for the new hash; hashes recompute once on the next scan</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.9.5</span>
+        
+        <span class="date">2026-06-07</span>
+      </div>
+      <h3>Clickable source URLs</h3><ul><li class="">The <strong>Source URL</strong> in the asset details panel (and lightbox) is now a real link — click it to open the page in your browser, with a dedicated open-in-browser button next to it</li><li class="">Editing the URL moved to a small pencil button, so a single click opens the page instead of dropping into edit mode</li><li class="">Bare URLs without a scheme are opened as <code>https://</code> automatically</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.9.4</span>
+        
+        <span class="date">2026-06-07</span>
+      </div>
+      <h3>Fixes &amp; polish</h3><ul><li class=""><strong>Duplicate finder now actually finds duplicates.</strong> Perceptual hashing moved from the browser canvas (which couldn&#x27;t reliably read image pixels) to native Rust image decoding — identical and near-identical screenshots are detected correctly. Existing hashes are reset once so they recompute accurately</li><li class="">Moved the <strong>keyboard-shortcuts</strong> button out of the toolbar (where it sat awkwardly between the item count and column controls) to the top-right of the page header</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.9.3</span>
+        
+        <span class="date">2026-06-07</span>
+      </div>
+      <h3>Duplicate finder</h3><ul><li class="">New <strong>Find Duplicates</strong> entry in the sidebar opens a finder that spots near-identical images across your whole library — not just exact copies, but crops, re-saves, and lightly edited versions</li><li class="">Uses a perceptual hash (dHash) computed once per image and cached, so repeat scans are instant</li><li class=""><strong>Strict / Normal / Loose</strong> sensitivity lets you dial how aggressively similar images are grouped</li><li class="">Each group keeps the <strong>oldest copy</strong> highlighted; delete extras individually or with one click (&quot;Keep oldest · Delete N&quot;), always behind a confirmation</li><li class="">Hashes are computed locally on your machine — nothing leaves your device</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.9.2</span>
+        
+        <span class="date">2026-06-07</span>
+      </div>
+      <h3>Keyboard-first navigation</h3><ul><li class="">A <strong>keyboard shortcuts</strong> reference now lives in Settings → <strong>Keys</strong>, with a quick-access keyboard icon in the grid toolbar</li><li class="">Drive the whole grid from the keyboard:</li><li class="sub"><strong>Arrow keys</strong> move a focus ring cell-by-cell (Left/Right) and row-by-row (Up/Down); <strong>Home/End</strong> jump to the first/last asset</li><li class="sub"><strong>Shift + arrows</strong> extend a multi-selection as you move</li><li class="sub"><strong>Space</strong> toggles the focused asset in/out of the selection</li><li class="sub"><strong>Enter</strong> opens the focused image in the lightbox (or selects non-images)</li><li class="sub"><strong>F</strong> stars/unstars the focused asset; <strong>⌘A / Ctrl+A</strong> selects everything visible</li><li class="sub"><strong>Delete / Backspace</strong> removes the focused asset or the whole selection</li><li class="">The focused cell always scrolls into view, and clicking a card moves keyboard focus there too — so mouse and keyboard stay in sync</li></ul>
     </section>
     <section class="ver">
       <div class="ver-head">
