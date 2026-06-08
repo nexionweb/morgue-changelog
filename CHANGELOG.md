@@ -2,6 +2,15 @@
 
 ---
 
+## [0.12.1] — 2026-06-08
+
+### Board snapping + collapsible sidebar
+- Boards now have **snapping with alignment guides** — drag an item and it snaps to other items' edges and centers, with orange guide lines showing the alignment. Toggle it on/off with the **Snap** button
+- The sidebar's **Folders, Boards, and Tags sections collapse** (click the section title) so you can hide what you're not using — your choices are remembered
+- Long lists now **cap their height and scroll** instead of pushing everything else off-screen
+
+---
+
 ## [0.12.0] — 2026-06-08
 
 ### Text & sticky notes on boards
