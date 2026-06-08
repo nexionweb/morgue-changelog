@@ -516,7 +516,7 @@
 - `GET /status` — returns `{ok, version}`, used by extension to detect if app is open
 - `GET /folders` — returns full folder tree from SQLite for the popup picker
 - `POST /capture` — fully wired end-to-end:
-  - Decodes base64 PNG screenshot → saves to `~/Library/Application Support/com.nexion.morgue/library/{uuid}.png`
+  - Decodes base64 PNG screenshot → saves to `~/Library/Application Support/com.morgue.morgue/library/{uuid}.png`
   - Inserts `assets` record (type = image) with name, source URL, file path
   - Assigns to folder via `asset_folders` if folder selected
   - Upserts tags into `tags` + `asset_tags` tables
@@ -535,7 +535,7 @@
 - Renamed from **InspoSaver** to **Morgue**
 - New app icon set applied (all sizes: 16, 32, 64, 128, 256, 512, 1024px + .icns + .ico)
 - DB renamed from `insposaver.db` → `morgue.db`
-- Bundle identifier updated to `com.nexion.morgue`
+- Bundle identifier updated to `com.morgue.morgue`
 
 ### Core infrastructure
 - Tauri 2 + React + TypeScript + SQLite (embedded, zero infra)
@@ -561,7 +561,7 @@
 
 #### Images
 - Real thumbnails via Tauri asset protocol (`convertFileSrc`)
-- Files copied to managed library directory (`~/Library/Application Support/com.nexion.morgue/library/`)
+- Files copied to managed library directory (`~/Library/Application Support/com.morgue.morgue/library/`)
 - UUID-named files on disk, display name editable separately
 
 #### Palettes
