@@ -2,6 +2,23 @@
 
 ---
 
+## [0.12.0] — 2026-06-08
+
+### Text & sticky notes on boards
+- Add **text labels** and **sticky notes** to a board from the toolbar — for headers, captions, and annotations alongside your assets
+- **Double-click to edit** any text or note; pick from **Heading / Body / Caption** sizes, and choose a **sticky-note color** from a handful of presets
+- Text and notes **resize freely** (assets still keep their aspect ratio)
+- Text and notes are included when you **export a board** (and print to PDF), positioned just like on the canvas
+
+---
+
+## [0.11.4] — 2026-06-08
+
+### Boards remember their view
+- Each board now **remembers its pan position and zoom level** — reopen a board and it's exactly where you left it
+
+---
+
 ## [0.11.3] — 2026-06-08
 
 ### Board zoom control
