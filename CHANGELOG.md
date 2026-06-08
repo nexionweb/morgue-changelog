@@ -2,6 +2,16 @@
 
 ---
 
+## [0.9.8] — 2026-06-08
+
+### Font detection in the extension
+- The Morgue browser extension now **detects the fonts used on the page you're saving**. A "Fonts on this page" list shows each typeface (with a live preview), ranked by how much it's used
+- Each font is badged **Local** (installed on your machine), **Google** (matched against your Google Fonts catalog, if a key is set), or **Web**
+- Tap the fonts you want and they're **attached to the saved asset**, showing up in its Fonts section — alongside the screenshot, tags, and palette
+- Fonts are read only when you open the extension on a page (via `activeTab`), so nothing runs in the background
+
+---
+
 ## [0.9.7] — 2026-06-07
 
 ### Fixes
