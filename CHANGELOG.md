@@ -2,6 +2,23 @@
 
 ---
 
+## [0.9.10] — 2026-06-08
+
+### Hover font inspector (extension)
+- New **Hover & pick from page** button in the extension's font section turns on an on-page inspector: hover any text to see its **font family, weight, and size** in a tooltip, and click to grab it
+- Grabbed fonts are remembered and **pre-selected the next time you open Morgue** on that page, ready to attach to the saved asset (they're badged Local / Google / Web like auto-detected fonts)
+- A floating banner shows while inspecting; press **Esc** or click **Done** to exit. Links don't navigate while the inspector is active
+
+---
+
+## [0.9.9] — 2026-06-08
+
+### Quick wins
+- **Click a palette swatch to filter by that color.** In an asset's Color Palettes section, clicking any swatch jumps to All Assets filtered to that color — a one-click bridge from "I like this color" to "show me everything with it"
+- **Open an asset's source URL straight from the grid.** Hovering a card with a source URL now shows an open-in-browser button, so you can jump to the original page without opening the asset first (the lightbox and details panel already supported this)
+
+---
+
 ## [0.9.8] — 2026-06-08
 
 ### Font detection in the extension
