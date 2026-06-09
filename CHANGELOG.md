@@ -2,6 +2,24 @@
 
 ---
 
+## [0.20.0] — 2026-06-08
+
+### Web fonts preview true-to-type
+- Fonts captured from the web (not just local fonts) now **preview in their real typeface** across the sidebar, grid, and boards — the app stores a loadable font URL when there's no local file and loads the actual face
+- Falls back gracefully to a system copy, then a default, when a font genuinely can't be loaded
+- Applies to **newly captured** fonts going forward
+
+---
+
+## [0.19.0] — 2026-06-08
+
+### Board templates
+- New boards can **start from a template** instead of a blank canvas — pick one from the empty board's "Start from a template" row
+- Four layouts to begin with: **Comparison** (A/B), **Before / After**, **Brand Board** (logo / color / type / imagery), and **Three Sections** (inspiration / direction / references)
+- Templates drop in labeled heading sections, centered in view — then you fill each area with assets, notes, and connectors as usual
+
+---
+
 ## [0.18.0] — 2026-06-08
 
 ### AI focuses on name + palette (no more auto-tags)
