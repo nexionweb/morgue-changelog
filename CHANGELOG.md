@@ -2,6 +2,95 @@
 
 ---
 
+## [0.18.0] — 2026-06-08
+
+### AI focuses on name + palette (no more auto-tags)
+- AI now suggests just a **name and a color palette** — the two things it's reliably great at. **Tagging is fully manual** again, so your tags stay meaningful and intentional
+- Desktop: the AI panel shows a **Suggested name** (one click to apply) alongside the suggested palette
+- Extension: the AI/auto-suggest fills the **name and palette** only; it no longer injects guessed tags into your tag field
+- Requires extension **v1.0.14** and an app rebuild
+
+---
+
+## [0.17.6] — 2026-06-08
+
+### AI tags: fewer, and about why you saved it
+- AI now suggests **3–5 tags, fewer is better** — capped at 5 — instead of an exhaustive description
+- It recognizes **non-UI work** (illustration, packaging, posters, branding, product photos) and tags the **design discipline** a designer would save it for — e.g. *packaging design*, *label illustration*, *craft beer* — rather than generic photo descriptors
+- **No more near-duplicates** (e.g. not both *product photography* and *food photography*), and photography-genre tags are only used when the photography itself is the point
+
+---
+
+## [0.17.5] — 2026-06-08
+
+### AI tags now lead with the design type
+- AI now **identifies what kind of UI/design it is first** — e.g. *saas landing page*, *dashboard ui*, *pricing page*, *login screen*, *mobile app*, *blog layout* — then the major components, then the industry
+- **Incidental atoms aren't tagged anymore** — *button*, *logo*, *icon*, *input*, *menu*, *badge*, etc. are dropped *unless that element is the whole point of the shot* (a dedicated logo or button/icon showcase keeps them)
+- Fewer, more meaningful tags overall
+
+---
+
+## [0.17.4] — 2026-06-08
+
+### Even tighter AI tags
+- AI no longer suggests **bare fragments** like *landing*, *page*, *section*, *cloud*, *header*, *grid*, or *card* — it must use the complete component name (*landing page*, *hero section*, *logo cloud*, *bento grid*, *blog cards*)
+- **Brand / business noise** is filtered out too — *studio*, *brand*, *content*, *platform*, *product*, *template*, *company*, and similar are dropped (and the model is told not to tag the brand's own name)
+- A few more mood adjectives joined the block-list (*bold*, *vibrant*, *premium*, *luxury*, …); when there isn't enough concrete detail, the AI now returns fewer tags instead of padding with filler
+
+---
+
+## [0.17.3] — 2026-06-08
+
+### Fix: auto-suggest now lands before save
+- With **Auto-suggest on capture** enabled, hitting **Save to Morgue** now waits for the AI to finish so the suggested **tags and palette are included in the capture** — previously a fast save could beat the AI and store nothing
+- The Save button shows **"Analyzing…"** briefly while it waits
+- Requires extension **v1.0.13**
+
+---
+
+## [0.17.2] — 2026-06-08
+
+### Fix: "Server error 413" when capturing
+- Captures and AI analysis with large screenshots no longer fail with **413 (payload too large)** — the local bridge now accepts much bigger images (up to 64 MB) instead of the previous 2 MB cap
+- Requires updating/relaunching the desktop app
+
+---
+
+## [0.17.1] — 2026-06-08
+
+### Auto-suggest on capture (extension)
+- New **"Auto-suggest on capture"** toggle in the browser extension — when on, AI runs automatically as the popup opens and pre-fills the name, palette, and (smarter) tags, so you can just hit Save
+- Off by default and remembered between captures, so there's no surprise API usage
+- Requires extension **v1.0.12**
+
+---
+
+## [0.17.0] — 2026-06-08
+
+### Smarter AI tags
+- AI tag suggestions now name **concrete, recognizable things** in the image — UI components and layout patterns like *blog cards*, *news cards*, *pricing table*, *hero section*, *bento grid*, *testimonial grid*, plus the kind of page/product and its industry
+- **Generic filler is gone** — vague aesthetic/mood tags like *modern*, *minimal*, *clean*, *modern typography*, *ui*, and *inspiration* are no longer suggested (and are filtered out even if the model returns them)
+- Applies everywhere AI suggestions appear — the desktop info panel and the browser extension (both share the same engine)
+
+---
+
+## [0.16.2] — 2026-06-08
+
+### True-to-type font previews everywhere
+- The real typeface now renders for fonts **on the grid and on boards** too — not just the sidebar — loading the actual font file when it's known
+- Grid font cards show a larger **Aa** specimen in the font's own face
+- Consistent graceful fallback (system copy → default) when a font has no local file
+
+---
+
+## [0.16.1] — 2026-06-08
+
+### True-to-type font previews
+- Fonts in the sidebar now preview using their **actual font file** when it's a local font — the app loads the real typeface instead of relying on a system copy being installed under the same name
+- Falls back gracefully to a system-installed copy (then a default) when no font file is available (e.g. fonts captured from the web)
+
+---
+
 ## [0.16.0] — 2026-06-08
 
 ### Browse your library by font

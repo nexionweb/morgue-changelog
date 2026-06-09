@@ -52,8 +52,88 @@
     
     <section class="ver latest">
       <div class="ver-head">
-        <span class="num">0.16.0</span>
+        <span class="num">0.18.0</span>
         <span class="pill">LATEST</span>
+        <span class="date">2026-06-08</span>
+      </div>
+      <h3>AI focuses on name + palette (no more auto-tags)</h3><ul><li class="">AI now suggests just a <strong>name and a color palette</strong> — the two things it&#x27;s reliably great at. <strong>Tagging is fully manual</strong> again, so your tags stay meaningful and intentional</li><li class="">Desktop: the AI panel shows a <strong>Suggested name</strong> (one click to apply) alongside the suggested palette</li><li class="">Extension: the AI/auto-suggest fills the <strong>name and palette</strong> only; it no longer injects guessed tags into your tag field</li><li class="">Requires extension <strong>v1.0.14</strong> and an app rebuild</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.17.6</span>
+        
+        <span class="date">2026-06-08</span>
+      </div>
+      <h3>AI tags: fewer, and about why you saved it</h3><ul><li class="">AI now suggests <strong>3–5 tags, fewer is better</strong> — capped at 5 — instead of an exhaustive description</li><li class="">It recognizes <strong>non-UI work</strong> (illustration, packaging, posters, branding, product photos) and tags the <strong>design discipline</strong> a designer would save it for — e.g. *packaging design*, *label illustration*, *craft beer* — rather than generic photo descriptors</li><li class=""><strong>No more near-duplicates</strong> (e.g. not both *product photography* and *food photography*), and photography-genre tags are only used when the photography itself is the point</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.17.5</span>
+        
+        <span class="date">2026-06-08</span>
+      </div>
+      <h3>AI tags now lead with the design type</h3><ul><li class="">AI now <strong>identifies what kind of UI/design it is first</strong> — e.g. *saas landing page*, *dashboard ui*, *pricing page*, *login screen*, *mobile app*, *blog layout* — then the major components, then the industry</li><li class=""><strong>Incidental atoms aren&#x27;t tagged anymore</strong> — *button*, *logo*, *icon*, *input*, *menu*, *badge*, etc. are dropped *unless that element is the whole point of the shot* (a dedicated logo or button/icon showcase keeps them)</li><li class="">Fewer, more meaningful tags overall</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.17.4</span>
+        
+        <span class="date">2026-06-08</span>
+      </div>
+      <h3>Even tighter AI tags</h3><ul><li class="">AI no longer suggests <strong>bare fragments</strong> like *landing*, *page*, *section*, *cloud*, *header*, *grid*, or *card* — it must use the complete component name (*landing page*, *hero section*, *logo cloud*, *bento grid*, *blog cards*)</li><li class=""><strong>Brand / business noise</strong> is filtered out too — *studio*, *brand*, *content*, *platform*, *product*, *template*, *company*, and similar are dropped (and the model is told not to tag the brand&#x27;s own name)</li><li class="">A few more mood adjectives joined the block-list (*bold*, *vibrant*, *premium*, *luxury*, …); when there isn&#x27;t enough concrete detail, the AI now returns fewer tags instead of padding with filler</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.17.3</span>
+        
+        <span class="date">2026-06-08</span>
+      </div>
+      <h3>Fix: auto-suggest now lands before save</h3><ul><li class="">With <strong>Auto-suggest on capture</strong> enabled, hitting <strong>Save to Morgue</strong> now waits for the AI to finish so the suggested <strong>tags and palette are included in the capture</strong> — previously a fast save could beat the AI and store nothing</li><li class="">The Save button shows <strong>&quot;Analyzing…&quot;</strong> briefly while it waits</li><li class="">Requires extension <strong>v1.0.13</strong></li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.17.2</span>
+        
+        <span class="date">2026-06-08</span>
+      </div>
+      <h3>Fix: &quot;Server error 413&quot; when capturing</h3><ul><li class="">Captures and AI analysis with large screenshots no longer fail with <strong>413 (payload too large)</strong> — the local bridge now accepts much bigger images (up to 64 MB) instead of the previous 2 MB cap</li><li class="">Requires updating/relaunching the desktop app</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.17.1</span>
+        
+        <span class="date">2026-06-08</span>
+      </div>
+      <h3>Auto-suggest on capture (extension)</h3><ul><li class="">New <strong>&quot;Auto-suggest on capture&quot;</strong> toggle in the browser extension — when on, AI runs automatically as the popup opens and pre-fills the name, palette, and (smarter) tags, so you can just hit Save</li><li class="">Off by default and remembered between captures, so there&#x27;s no surprise API usage</li><li class="">Requires extension <strong>v1.0.12</strong></li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.17.0</span>
+        
+        <span class="date">2026-06-08</span>
+      </div>
+      <h3>Smarter AI tags</h3><ul><li class="">AI tag suggestions now name <strong>concrete, recognizable things</strong> in the image — UI components and layout patterns like *blog cards*, *news cards*, *pricing table*, *hero section*, *bento grid*, *testimonial grid*, plus the kind of page/product and its industry</li><li class=""><strong>Generic filler is gone</strong> — vague aesthetic/mood tags like *modern*, *minimal*, *clean*, *modern typography*, *ui*, and *inspiration* are no longer suggested (and are filtered out even if the model returns them)</li><li class="">Applies everywhere AI suggestions appear — the desktop info panel and the browser extension (both share the same engine)</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.16.2</span>
+        
+        <span class="date">2026-06-08</span>
+      </div>
+      <h3>True-to-type font previews everywhere</h3><ul><li class="">The real typeface now renders for fonts <strong>on the grid and on boards</strong> too — not just the sidebar — loading the actual font file when it&#x27;s known</li><li class="">Grid font cards show a larger <strong>Aa</strong> specimen in the font&#x27;s own face</li><li class="">Consistent graceful fallback (system copy → default) when a font has no local file</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.16.1</span>
+        
+        <span class="date">2026-06-08</span>
+      </div>
+      <h3>True-to-type font previews</h3><ul><li class="">Fonts in the sidebar now preview using their <strong>actual font file</strong> when it&#x27;s a local font — the app loads the real typeface instead of relying on a system copy being installed under the same name</li><li class="">Falls back gracefully to a system-installed copy (then a default) when no font file is available (e.g. fonts captured from the web)</li></ul>
+    </section>
+    <section class="ver">
+      <div class="ver-head">
+        <span class="num">0.16.0</span>
+        
         <span class="date">2026-06-08</span>
       </div>
       <h3>Browse your library by font</h3><ul><li class="">New <strong>Fonts</strong> section in the sidebar lists every typeface across your library — saved fonts plus fonts detected on your assets — each previewed <strong>in its own typeface</strong> with a count</li><li class=""><strong>Click a font</strong> to filter the grid to everything that uses it (the saved font swatch and any asset it appears on)</li><li class="">The list updates automatically as you capture new fonts, and the section collapses like Folders/Boards/Tags</li></ul>
