@@ -2,6 +2,27 @@
 
 ---
 
+## [0.21.1] — 2026-06-08
+
+### Extension polish
+- The extension popup is a bit **wider** so longer titles and the capture-mode buttons have room to breathe
+- The **Visible / Full page / Region** buttons are now properly aligned with the preview and evenly spaced
+- Requires extension **v1.0.16**
+
+---
+
+## [0.21.0] — 2026-06-08
+
+### Full-page & region capture (extension)
+- The extension can now capture in **three modes**, chosen from buttons above the preview:
+  - **Visible** — the current viewport (as before)
+  - **Full page** — scrolls the whole page and stitches it into one tall screenshot (fixed/sticky headers are hidden after the first slice so they don't repeat)
+  - **Region** — drag a box over any part of the page to grab just that area
+- Full-page capture shows live progress; region capture lets you draw a selection right on the page (Esc to cancel)
+- Requires extension **v1.0.15**
+
+---
+
 ## [0.20.0] — 2026-06-08
 
 ### Web fonts preview true-to-type
