@@ -2,6 +2,30 @@
 
 ---
 
+## [1.0.1] — 2026-06-12
+
+### Asset properties, easier color search & smoother updates
+- **Asset properties at a glance** — the details panel and full-screen view now show **dimensions, file size, type, and the dates imported/modified**
+- **Color search is easier to find** — type a **hex code** (like `#5B7FFF`) in the search bar to pull up every asset and palette using that color, and a small **color chip** appears so it's clear you're searching by color
+- **Copies now show up in clipboard managers** — copying a swatch's hex lands in your clipboard **history** (Paste, etc.), not just on the next paste
+- **Check for updates anytime** — a new **Check for updates** option in Settings, and Morgue now re-checks periodically while it's running, so you'll hear about a new version even if you rarely quit the app
+
+---
+
+## [1.0.0] — 2026-06-11
+
+### Morgue 1.0 🎉
+Our first stable release. Highlights since the last beta:
+- **Color search** — type a **hex code** in the search bar to find every asset and palette using that color; an empty search now shows a clear **"No matches"** state instead of looking like an empty library
+- **Accessibility** — the asset grid is **fully keyboard-navigable** (arrows, Home/End, Space, Enter, ⌘A) with visible focus rings, and Morgue now **respects your macOS high-contrast and reduced-motion** settings
+- **Toast notifications** — quick, unobtrusive confirmations for actions like export, import, and copy (and clear messages when something fails)
+- **Refined window** — rounded corners with native-style window controls and full-screen support
+- **Safer imports** — importing a backup no longer **duplicates boards**, and imports are now **all-or-nothing**, so a failed import can't leave a half-imported library
+- **Licensing fix** — closed an edge case where an offline or not-yet-activated device could lock itself out
+- Plus reliability and polish throughout
+
+---
+
 ## [0.21.1] — 2026-06-08
 
 ### Extension polish
