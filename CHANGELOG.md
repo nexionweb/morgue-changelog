@@ -2,6 +2,16 @@
 
 ---
 
+## [1.1.0] — 2026-06-12
+
+### Color & type tools, plus sharper filtering
+- **Contrast checker** — see the **WCAG contrast ratio** between palette colors, flagged **AA / AAA / Fail**, in the palette builder, the info panel, and on a palette asset — quick checks for accessible text-on-background pairs
+- **Export palettes** — copy or save any palette as **CSS variables, SCSS, Tailwind config, JSON, a hex list, or an Adobe `.ase`** swatch file, with a custom variable name so it drops straight into your project
+- **Advanced filters** — narrow your library by **date added** (presets or a custom range), **source site** (everything saved from a given domain), and **orientation** (landscape / portrait / square) — all stacking with your existing folder, tag, color, and search filters
+- **Faster properties** — image **dimensions** in the details panel now appear instantly instead of waiting on the image to load
+
+---
+
 ## [1.0.1] — 2026-06-12
 
 ### Asset properties, easier color search & smoother updates
