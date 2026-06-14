@@ -3,694 +3,492 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Morgue — Changelog</title>
-<meta name="description" content="Release notes for Morgue, the local-first design inspiration manager." />
+<title>Morgue Changelog — What's New</title>
+<meta name="description" content="Every Morgue update in one place: new features, improvements, and fixes for the local-first design reference manager for Mac." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg:#F2F0EB; --surface:#ffffff; --text:#1A1917; --muted:#6b6862;
-    --border:#e2dfd8; --accent:#FF4405; --mono:"Space Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg:#161412; --surface:#1f1c1a; --text:#F0EDE8; --muted:#9a958d; --border:#2c2926; }
+    --bg:#1A1917; --surface:#222120; --card:#2A2927; --text:#F0EDE8;
+    --muted:#8A857D; --border:#333130; --accent:#FF4405;
+    --feature:#34A866; --improvement:#4C8FBF; --fix:#E0A800; --breaking:#E5484D;
+    --mono:"Space Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --display:"Inter Tight",-apple-system,BlinkMacSystemFont,sans-serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--text); line-height:1.6;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased; }
-  .wrap { max-width:760px; margin:0 auto; padding:56px 24px 110px; }
-  .badge { display:inline-flex; align-items:center; gap:10px; margin-bottom:26px; }
-  .badge .appicon { width:32px; height:32px; border-radius:22%; display:block; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
-  .badge .bname { font-family:var(--mono); font-weight:700; letter-spacing:0.12em; font-size:13px; text-transform:uppercase; }
-  h1 { font-size:32px; letter-spacing:-0.02em; margin:0 0 6px; }
-  .sub { color:var(--muted); font-size:14px; margin:0 0 40px; }
-  .ver { position:relative; padding:0 0 26px 26px; border-left:2px solid var(--border); }
-  .ver:last-child { border-left-color:transparent; }
-  .ver::before { content:""; position:absolute; left:-7px; top:4px; width:12px; height:12px; border-radius:50%; background:var(--border); border:2px solid var(--bg); }
-  .ver.latest::before { background:var(--accent); }
-  .ver-head { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
-  .num { font-family:var(--mono); font-weight:700; font-size:17px; color:var(--accent); }
-  .date { color:var(--muted); font-size:12px; font-family:var(--mono); }
-  .pill { font-family:var(--mono); font-size:9px; font-weight:700; letter-spacing:0.08em; color:#fff; background:var(--accent); border-radius:20px; padding:2px 8px; }
-  h3 { font-size:13px; margin:16px 0 6px; letter-spacing:-0.01em; }
-  ul { margin:0 0 4px; padding-left:18px; }
-  li { font-size:14.5px; margin:3px 0; color:var(--text); }
-  li.sub { list-style:circle; margin-left:18px; color:var(--muted); font-size:13.5px; }
-  code { font-family:var(--mono); font-size:12.5px; background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:1px 5px; }
+    font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  /* Film grain overlay — matches the app's texture */
+  body::before {
+    content:""; position:fixed; inset:0; z-index:9999; pointer-events:none;
+    opacity:0.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  a { color:var(--accent); text-decoration:none; }
+  .wrap { max-width:1100px; margin:0 auto; padding:48px 28px 120px; }
+
+  .pill { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--border);
+    border-radius:999px; padding:7px 16px; margin-bottom:30px; }
+  .pill .appicon { width:18px; height:18px; border-radius:24%; display:block; }
+  .pill .lbl { font-family:var(--mono); font-weight:700; font-size:11px; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--accent); }
+
+  .layout { display:grid; grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr); gap:48px; align-items:start; }
+  @media (max-width:820px) { .layout { grid-template-columns:1fr; gap:40px; } }
+
+  .feat { position:sticky; top:32px; }
+  @media (max-width:820px) { .feat { position:static; } }
+  .feat-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:26px; }
+  .feat-date { font-family:var(--mono); font-size:11px; letter-spacing:0.08em; color:var(--muted); margin-bottom:10px; }
+  .feat-title { font-family:var(--display); font-weight:900; font-size:38px; line-height:1.02;
+    letter-spacing:-0.03em; margin:0 0 14px; }
+
+  .legend { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:22px; padding-top:20px; border-top:1px solid var(--border); }
+  .legend-title { font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); width:100%; margin-bottom:2px; }
+  .chip { display:inline-flex; align-items:center; gap:7px; border:1px solid var(--border); border-radius:999px;
+    padding:4px 11px; font-family:var(--mono); font-size:11px; color:var(--text); }
+  .chip .dot { margin-top:0; }  /* center in the chip (the list-item offset doesn't apply here) */
+
+  .timeline { position:relative; }
+  .entry { padding:0 0 30px 0; border-bottom:1px solid var(--border); margin-bottom:30px; }
+  .entry:last-child { border-bottom:none; }
+  .entry-date { font-family:var(--mono); font-size:11px; letter-spacing:0.08em; color:var(--muted); margin-bottom:8px; }
+  .entry-num { font-family:var(--display); font-weight:900; font-size:30px; letter-spacing:-0.02em; margin-bottom:10px; }
+
+  .sectitle { font-size:13px; font-weight:600; color:var(--muted); margin:16px 0 8px; }
+  .items { list-style:none; margin:0; padding:0; }
+  .item { display:flex; gap:11px; align-items:flex-start; padding:7px 0;
+    border-bottom:1px solid color-mix(in srgb, var(--border) 55%, transparent); font-size:14.5px; }
+  .item:last-child { border-bottom:none; }
+  .item.sub { padding-left:22px; color:var(--muted); font-size:13.5px; }
+  .itext { flex:1; }
+  .dot { flex-shrink:0; width:8px; height:8px; border-radius:50%; margin-top:8px; background:var(--muted); }
+  .dot.feature { background:var(--feature); }
+  .dot.improvement { background:var(--improvement); }
+  .dot.fix { background:var(--fix); }
+  .dot.breaking { background:var(--breaking); }
+
+  code { font-family:var(--mono); font-size:12.5px; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:1px 5px; }
   strong { font-weight:700; }
-  footer { margin-top:48px; color:var(--muted); font-size:13px; border-top:1px solid var(--border); padding-top:20px; }
-  footer a { color:var(--accent); text-decoration:none; }
+  footer { margin-top:56px; color:var(--muted); font-size:13px; border-top:1px solid var(--border); padding-top:22px; }
 </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="badge">
-      <img class="appicon" src="icon.png" alt="Morgue app icon" />
-      <span class="bname">Morgue</span>
+    <div class="pill"><img class="appicon" src="icon.png" alt="" /><span class="lbl">Changelog</span></div>
+    <div class="layout">
+      <aside class="feat">
+      <div class="feat-card">
+        <div class="feat-date">JUNE 12, 2026</div>
+        <h2 class="feat-title">Latest — 1.1.0</h2>
+        <h3 class="sectitle">Color &amp; type tools, plus sharper filtering</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Contrast checker</strong> — see the <strong>WCAG contrast ratio</strong> between palette colors, flagged <strong>AA / AAA / Fail</strong>, in the palette builder, the info panel, and on a palette asset — quick checks for accessible text-on-background pairs</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Export palettes</strong> — copy or save any palette as <strong>CSS variables, SCSS, Tailwind config, JSON, a hex list, or an Adobe <code>.ase</code></strong> swatch file, with a custom variable name so it drops straight into your project</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Advanced filters</strong> — narrow your library by <strong>date added</strong> (presets or a custom range), <strong>source site</strong> (everything saved from a given domain), and <strong>orientation</strong> (landscape / portrait / square) — all stacking with your existing folder, tag, color, and search filters</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Faster properties</strong> — image <strong>dimensions</strong> in the details panel now appear instantly instead of waiting on the image to load</span></li></ul>
+      </div>
+      <div class="legend">
+        <span class="legend-title">Legend</span>
+        <span class="chip"><span class="dot feature"></span>Feature</span>
+        <span class="chip"><span class="dot improvement"></span>Improvement</span>
+        <span class="chip"><span class="dot fix"></span>Fix</span>
+        <span class="chip"><span class="dot breaking"></span>Breaking</span>
+      </div></aside>
+      <div class="timeline">
+      <section class="entry">
+        <div class="entry-date">JUNE 12, 2026</div>
+        <div class="entry-num">1.0.1</div>
+        <h3 class="sectitle">Asset properties, easier color search &amp; smoother updates</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Asset properties at a glance</strong> — the details panel and full-screen view now show <strong>dimensions, file size, type, and the dates imported/modified</strong></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Color search is easier to find</strong> — type a <strong>hex code</strong> (like <code>#5B7FFF</code>) in the search bar to pull up every asset and palette using that color, and a small <strong>color chip</strong> appears so it&#x27;s clear you&#x27;re searching by color</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Copies now show up in clipboard managers</strong> — copying a swatch&#x27;s hex lands in your clipboard <strong>history</strong> (Paste, etc.), not just on the next paste</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Check for updates anytime</strong> — a new <strong>Check for updates</strong> option in Settings, and Morgue now re-checks periodically while it&#x27;s running, so you&#x27;ll hear about a new version even if you rarely quit the app</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 11, 2026</div>
+        <div class="entry-num">1.0.0</div>
+        <h3 class="sectitle">Morgue 1.0 🎉</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Color search</strong> — type a <strong>hex code</strong> in the search bar to find every asset and palette using that color; an empty search now shows a clear <strong>&quot;No matches&quot;</strong> state instead of looking like an empty library</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Accessibility</strong> — the asset grid is <strong>fully keyboard-navigable</strong> (arrows, Home/End, Space, Enter, ⌘A) with visible focus rings, and Morgue now <strong>respects your macOS high-contrast and reduced-motion</strong> settings</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Toast notifications</strong> — quick, unobtrusive confirmations for actions like export, import, and copy (and clear messages when something fails)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Refined window</strong> — rounded corners with native-style window controls and full-screen support</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Safer imports</strong> — importing a backup no longer <strong>duplicates boards</strong>, and imports are now <strong>all-or-nothing</strong>, so a failed import can&#x27;t leave a half-imported library</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Licensing fix</strong> — closed an edge case where an offline or not-yet-activated device could lock itself out</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Plus reliability and polish throughout</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.21.1</div>
+        <h3 class="sectitle">Extension polish</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The extension popup is a bit <strong>wider</strong> so longer titles and the capture-mode buttons have room to breathe</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The <strong>Visible / Full page / Region</strong> buttons are now properly aligned with the preview and evenly spaced</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Requires extension <strong>v1.0.16</strong></span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.21.0</div>
+        <h3 class="sectitle">Full-page &amp; region capture (extension)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The extension can now capture in <strong>three modes</strong>, chosen from buttons above the preview:</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Visible</strong> — the current viewport (as before)</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Full page</strong> — scrolls the whole page and stitches it into one tall screenshot (fixed/sticky headers are hidden after the first slice so they don&#x27;t repeat)</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Region</strong> — drag a box over any part of the page to grab just that area</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Full-page capture shows live progress; region capture lets you draw a selection right on the page (Esc to cancel)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Requires extension <strong>v1.0.15</strong></span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.20.0</div>
+        <h3 class="sectitle">Web fonts preview true-to-type</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Fonts captured from the web (not just local fonts) now <strong>preview in their real typeface</strong> across the sidebar, grid, and boards — the app stores a loadable font URL when there&#x27;s no local file and loads the actual face</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Falls back gracefully to a system copy, then a default, when a font genuinely can&#x27;t be loaded</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Applies to <strong>newly captured</strong> fonts going forward</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.19.0</div>
+        <h3 class="sectitle">Board templates</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New boards can <strong>start from a template</strong> instead of a blank canvas — pick one from the empty board&#x27;s &quot;Start from a template&quot; row</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Four layouts to begin with: <strong>Comparison</strong> (A/B), <strong>Before / After</strong>, <strong>Brand Board</strong> (logo / color / type / imagery), and <strong>Three Sections</strong> (inspiration / direction / references)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Templates drop in labeled heading sections, centered in view — then you fill each area with assets, notes, and connectors as usual</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.18.0</div>
+        <h3 class="sectitle">AI focuses on name + palette (no more auto-tags)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">AI now suggests just a <strong>name and a color palette</strong> — the two things it&#x27;s reliably great at. <strong>Tagging is fully manual</strong> again, so your tags stay meaningful and intentional</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Desktop: the AI panel shows a <strong>Suggested name</strong> (one click to apply) alongside the suggested palette</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Extension: the AI/auto-suggest fills the <strong>name and palette</strong> only; it no longer injects guessed tags into your tag field</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Requires extension <strong>v1.0.14</strong> and an app rebuild</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.17.6</div>
+        <h3 class="sectitle">AI tags: fewer, and about why you saved it</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">AI now suggests <strong>3–5 tags, fewer is better</strong> — capped at 5 — instead of an exhaustive description</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">It recognizes <strong>non-UI work</strong> (illustration, packaging, posters, branding, product photos) and tags the <strong>design discipline</strong> a designer would save it for — e.g. *packaging design*, *label illustration*, *craft beer* — rather than generic photo descriptors</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>No more near-duplicates</strong> (e.g. not both *product photography* and *food photography*), and photography-genre tags are only used when the photography itself is the point</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.17.5</div>
+        <h3 class="sectitle">AI tags now lead with the design type</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">AI now <strong>identifies what kind of UI/design it is first</strong> — e.g. *saas landing page*, *dashboard ui*, *pricing page*, *login screen*, *mobile app*, *blog layout* — then the major components, then the industry</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Incidental atoms aren&#x27;t tagged anymore</strong> — *button*, *logo*, *icon*, *input*, *menu*, *badge*, etc. are dropped *unless that element is the whole point of the shot* (a dedicated logo or button/icon showcase keeps them)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Fewer, more meaningful tags overall</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.17.4</div>
+        <h3 class="sectitle">Even tighter AI tags</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">AI no longer suggests <strong>bare fragments</strong> like *landing*, *page*, *section*, *cloud*, *header*, *grid*, or *card* — it must use the complete component name (*landing page*, *hero section*, *logo cloud*, *bento grid*, *blog cards*)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Brand / business noise</strong> is filtered out too — *studio*, *brand*, *content*, *platform*, *product*, *template*, *company*, and similar are dropped (and the model is told not to tag the brand&#x27;s own name)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">A few more mood adjectives joined the block-list (*bold*, *vibrant*, *premium*, *luxury*, …); when there isn&#x27;t enough concrete detail, the AI now returns fewer tags instead of padding with filler</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.17.3</div>
+        <h3 class="sectitle">Fix: auto-suggest now lands before save</h3><ul class="items"><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">With <strong>Auto-suggest on capture</strong> enabled, hitting <strong>Save to Morgue</strong> now waits for the AI to finish so the suggested <strong>tags and palette are included in the capture</strong> — previously a fast save could beat the AI and store nothing</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">The Save button shows <strong>&quot;Analyzing…&quot;</strong> briefly while it waits</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Requires extension <strong>v1.0.13</strong></span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.17.2</div>
+        <h3 class="sectitle">Fix: &quot;Server error 413&quot; when capturing</h3><ul class="items"><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Captures and AI analysis with large screenshots no longer fail with <strong>413 (payload too large)</strong> — the local bridge now accepts much bigger images (up to 64 MB) instead of the previous 2 MB cap</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Requires updating/relaunching the desktop app</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.17.1</div>
+        <h3 class="sectitle">Auto-suggest on capture (extension)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New <strong>&quot;Auto-suggest on capture&quot;</strong> toggle in the browser extension — when on, AI runs automatically as the popup opens and pre-fills the name, palette, and (smarter) tags, so you can just hit Save</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Off by default and remembered between captures, so there&#x27;s no surprise API usage</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Requires extension <strong>v1.0.12</strong></span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.17.0</div>
+        <h3 class="sectitle">Smarter AI tags</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">AI tag suggestions now name <strong>concrete, recognizable things</strong> in the image — UI components and layout patterns like *blog cards*, *news cards*, *pricing table*, *hero section*, *bento grid*, *testimonial grid*, plus the kind of page/product and its industry</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Generic filler is gone</strong> — vague aesthetic/mood tags like *modern*, *minimal*, *clean*, *modern typography*, *ui*, and *inspiration* are no longer suggested (and are filtered out even if the model returns them)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Applies everywhere AI suggestions appear — the desktop info panel and the browser extension (both share the same engine)</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.16.2</div>
+        <h3 class="sectitle">True-to-type font previews everywhere</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The real typeface now renders for fonts <strong>on the grid and on boards</strong> too — not just the sidebar — loading the actual font file when it&#x27;s known</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Grid font cards show a larger <strong>Aa</strong> specimen in the font&#x27;s own face</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Consistent graceful fallback (system copy → default) when a font has no local file</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.16.1</div>
+        <h3 class="sectitle">True-to-type font previews</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Fonts in the sidebar now preview using their <strong>actual font file</strong> when it&#x27;s a local font — the app loads the real typeface instead of relying on a system copy being installed under the same name</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Falls back gracefully to a system-installed copy (then a default) when no font file is available (e.g. fonts captured from the web)</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.16.0</div>
+        <h3 class="sectitle">Browse your library by font</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New <strong>Fonts</strong> section in the sidebar lists every typeface across your library — saved fonts plus fonts detected on your assets — each previewed <strong>in its own typeface</strong> with a count</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Click a font</strong> to filter the grid to everything that uses it (the saved font swatch and any asset it appears on)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The list updates automatically as you capture new fonts, and the section collapses like Folders/Boards/Tags</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.15.0</div>
+        <h3 class="sectitle">Unified search</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The library search now matches across <strong>name, source site, notes, tags, and fonts</strong> — not just names. So you can find everything you saved from a site by typing its domain, or pull up every asset using a given typeface</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Fonts are now searchable</strong> — search a font family and you&#x27;ll get the saved font plus any asset it was detected on</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Multi-word search</strong> narrows results: every word you type must match somewhere (e.g. <code>figma hero</code> finds assets that match both)</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.14.3</div>
+        <h3 class="sectitle">Board drag polish</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Boards now show a <strong>drag-handle (grip dots)</strong> on the left, matching folders — grab it to reorder</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">A <strong>floating label of the board&#x27;s name</strong> follows your cursor while dragging, so it&#x27;s clear what you&#x27;re moving</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.14.2</div>
+        <h3 class="sectitle">Fix: board drag-reordering</h3><ul class="items"><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext"><strong>Dragging boards now actually works</strong> — switched to the same pointer-based drag the folders use (the webview doesn&#x27;t fire native drag events), so reordering is reliable. Double-click-to-rename and click-to-open are unaffected</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.14.1</div>
+        <h3 class="sectitle">Reorder boards</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Drag boards</strong> in the sidebar to reorder them — a drop indicator shows where it&#x27;ll land, and the order is saved</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.14.0</div>
+        <h3 class="sectitle">Board: connectors &amp; arrows</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Connect two items</strong> with a line or arrow — select exactly two items and hit <strong>Connect</strong> in the toolbar</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Connectors <strong>follow their items</strong> as you move and resize them, anchoring to the nearest edge</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Click a connector</strong> to select it, then recolor it (5 presets), <strong>toggle the arrowhead</strong> on/off, or remove it (<strong>Delete</strong>)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Removing an item automatically cleans up any connectors attached to it</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Connectors are <strong>included in board exports</strong> (and print to PDF) just like everything else</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.13.0</div>
+        <h3 class="sectitle">Board: floating toolbar + multi-select</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The board tools now live in a <strong>floating toolbar at the bottom</strong> of the canvas instead of the header — it stays out of the way and surfaces contextual controls (size, color, layering, duplicate, remove) only when something is selected</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Multi-select</strong>: shift-click items to add/remove from the selection, or <strong>shift-drag on empty canvas</strong> to rubber-band a group. Move the whole group together in one drag (with snapping)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Duplicate</strong> selected items with the toolbar button or <strong>⌘D</strong></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Copy / paste</strong> items with <strong>⌘C / ⌘V</strong></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Select all</strong> with <strong>⌘A</strong>; <strong>Delete/Backspace</strong> removes everything selected; <strong>Esc</strong> clears the selection</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Layering (forward/back), text size, and note color now apply to <strong>all selected items</strong> at once</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.12.1</div>
+        <h3 class="sectitle">Board snapping + collapsible sidebar</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Boards now have <strong>snapping with alignment guides</strong> — drag an item and it snaps to other items&#x27; edges and centers, with orange guide lines showing the alignment. Toggle it on/off with the <strong>Snap</strong> button</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The sidebar&#x27;s <strong>Folders, Boards, and Tags sections collapse</strong> (click the section title) so you can hide what you&#x27;re not using — your choices are remembered</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Long lists now <strong>cap their height and scroll</strong> instead of pushing everything else off-screen</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.12.0</div>
+        <h3 class="sectitle">Text &amp; sticky notes on boards</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Add <strong>text labels</strong> and <strong>sticky notes</strong> to a board from the toolbar — for headers, captions, and annotations alongside your assets</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Double-click to edit</strong> any text or note; pick from <strong>Heading / Body / Caption</strong> sizes, and choose a <strong>sticky-note color</strong> from a handful of presets</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Text and notes <strong>resize freely</strong> (assets still keep their aspect ratio)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Text and notes are included when you <strong>export a board</strong> (and print to PDF), positioned just like on the canvas</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.11.4</div>
+        <h3 class="sectitle">Boards remember their view</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Each board now <strong>remembers its pan position and zoom level</strong> — reopen a board and it&#x27;s exactly where you left it</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.11.3</div>
+        <h3 class="sectitle">Board zoom control</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The board zoom <strong>+ / −</strong> buttons now step in clean <strong>5% increments</strong></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">You can also <strong>type an exact zoom %</strong> right in the box (Enter to apply, Esc to cancel)</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.11.2</div>
+        <h3 class="sectitle">Board polish</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Added a <strong>zoom control</strong> in the bottom-right of boards — current percentage on top, <strong>+ / −</strong> below (click the percentage to reset to 100%)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The right info panel is now <strong>hidden on boards</strong>, giving the canvas the full width</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Fixed <strong>color palettes (and color blocks) disappearing when saving a board or gallery to PDF</strong> — background colors now print correctly</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.11.1</div>
+        <h3 class="sectitle">Board improvements</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Assets now drop onto a board at their <strong>real aspect ratio</strong> (no more cropped hero images), and resizing <strong>keeps that ratio</strong> so the whole image stays visible as you scale</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Board images now show in full (contained) rather than cropped to fill</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New <strong>Export</strong> button on boards — saves the board&#x27;s spatial layout as a self-contained, shareable HTML page (with a Save as PDF button), preserving each item&#x27;s position, size, and stacking</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.11.0</div>
+        <h3 class="sectitle">Moodboards</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New <strong>Boards</strong> section in the sidebar — create freeform canvases to arrange your inspiration spatially instead of in a grid</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Add assets from your library</strong> onto a board, then <strong>drag to move, drag the corner to resize, and layer</strong> them (bring forward / send back)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Pan</strong> by dragging the canvas and <strong>zoom</strong> with the scroll wheel (zoom centers on your cursor); a reset button returns to 100%</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Select an item to move/resize/layer/remove it; <strong>Delete</strong> removes it from the board (the asset stays in your library). Everything is saved automatically</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Rename a board by double-clicking it; delete a board without touching its assets</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.10.1</div>
+        <h3 class="sectitle">Export &amp; branding polish</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Exported galleries now have a <strong>Save as PDF</strong> button right on the page — click it to open the print dialog straight to PDF, no menu-hunting</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The <strong>Morgue app icon</strong> (rounded like an app icon) now appears on exported galleries, the changelog, and the privacy policy, replacing the old generated mark</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.10.0</div>
+        <h3 class="sectitle">Export gallery</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New <strong>Export</strong> button in the toolbar turns the current view into a <strong>self-contained, shareable HTML gallery</strong> — one file, no dependencies, perfect for sending a client or teammate</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Exports exactly what you see: any folder, tag, color filter, or All Assets — images, palettes, and fonts together, titled by the current view</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Each item carries its <strong>source link, attached color swatches, fonts, and tags</strong>; images are embedded directly so the file works offline and anywhere</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Themed to match Morgue (and <strong>print-to-PDF friendly</strong> — open it and Save as PDF for a polished deck)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">After exporting, the file is revealed in Finder</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.9.10</div>
+        <h3 class="sectitle">Hover font inspector (extension)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New <strong>Hover &amp; pick from page</strong> button in the extension&#x27;s font section turns on an on-page inspector: hover any text to see its <strong>font family, weight, and size</strong> in a tooltip, and click to grab it</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Grabbed fonts are remembered and <strong>pre-selected the next time you open Morgue</strong> on that page, ready to attach to the saved asset (they&#x27;re badged Local / Google / Web like auto-detected fonts)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">A floating banner shows while inspecting; press <strong>Esc</strong> or click <strong>Done</strong> to exit. Links don&#x27;t navigate while the inspector is active</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.9.9</div>
+        <h3 class="sectitle">Quick wins</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Click a palette swatch to filter by that color.</strong> In an asset&#x27;s Color Palettes section, clicking any swatch jumps to All Assets filtered to that color — a one-click bridge from &quot;I like this color&quot; to &quot;show me everything with it&quot;</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Open an asset&#x27;s source URL straight from the grid.</strong> Hovering a card with a source URL now shows an open-in-browser button, so you can jump to the original page without opening the asset first (the lightbox and details panel already supported this)</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 08, 2026</div>
+        <div class="entry-num">0.9.8</div>
+        <h3 class="sectitle">Font detection in the extension</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The Morgue browser extension now <strong>detects the fonts used on the page you&#x27;re saving</strong>. A &quot;Fonts on this page&quot; list shows each typeface (with a live preview), ranked by how much it&#x27;s used</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Each font is badged <strong>Local</strong> (installed on your machine), <strong>Google</strong> (matched against your Google Fonts catalog, if a key is set), or <strong>Web</strong></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tap the fonts you want and they&#x27;re <strong>attached to the saved asset</strong>, showing up in its Fonts section — alongside the screenshot, tags, and palette</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Fonts are read only when you open the extension on a page (via <code>activeTab</code>), so nothing runs in the background</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 07, 2026</div>
+        <div class="entry-num">0.9.7</div>
+        <h3 class="sectitle">Fixes</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Fixed the delete confirmation appearing <strong>behind</strong> the duplicate finder (and other modals) — confirmation dialogs now always sit on top, so deleting a duplicate works as expected</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 07, 2026</div>
+        <div class="entry-num">0.9.6</div>
+        <h3 class="sectitle">Better duplicate detection</h3><ul class="items"><li class="item" data-cat="improvement"><span class="dot improvement"></span><span class="itext">Replaced the difference-hash with a <strong>DCT-based perceptual hash</strong>, which is much more reliable on flat, mostly-white screenshots (like landing-page heroes) where the old hash missed obvious near-duplicates</span></li><li class="item" data-cat="improvement"><span class="dot improvement"></span><span class="itext">Retuned the Strict / Normal / Loose sensitivity for the new hash; hashes recompute once on the next scan</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 07, 2026</div>
+        <div class="entry-num">0.9.5</div>
+        <h3 class="sectitle">Clickable source URLs</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The <strong>Source URL</strong> in the asset details panel (and lightbox) is now a real link — click it to open the page in your browser, with a dedicated open-in-browser button next to it</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Editing the URL moved to a small pencil button, so a single click opens the page instead of dropping into edit mode</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Bare URLs without a scheme are opened as <code>https://</code> automatically</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 07, 2026</div>
+        <div class="entry-num">0.9.4</div>
+        <h3 class="sectitle">Fixes &amp; polish</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Duplicate finder now actually finds duplicates.</strong> Perceptual hashing moved from the browser canvas (which couldn&#x27;t reliably read image pixels) to native Rust image decoding — identical and near-identical screenshots are detected correctly. Existing hashes are reset once so they recompute accurately</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Moved the <strong>keyboard-shortcuts</strong> button out of the toolbar (where it sat awkwardly between the item count and column controls) to the top-right of the page header</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 07, 2026</div>
+        <div class="entry-num">0.9.3</div>
+        <h3 class="sectitle">Duplicate finder</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New <strong>Find Duplicates</strong> entry in the sidebar opens a finder that spots near-identical images across your whole library — not just exact copies, but crops, re-saves, and lightly edited versions</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Uses a perceptual hash (dHash) computed once per image and cached, so repeat scans are instant</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Strict / Normal / Loose</strong> sensitivity lets you dial how aggressively similar images are grouped</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Each group keeps the <strong>oldest copy</strong> highlighted; delete extras individually or with one click (&quot;Keep oldest · Delete N&quot;), always behind a confirmation</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Hashes are computed locally on your machine — nothing leaves your device</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 07, 2026</div>
+        <div class="entry-num">0.9.2</div>
+        <h3 class="sectitle">Keyboard-first navigation</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">A <strong>keyboard shortcuts</strong> reference now lives in Settings → <strong>Keys</strong>, with a quick-access keyboard icon in the grid toolbar</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Drive the whole grid from the keyboard:</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Arrow keys</strong> move a focus ring cell-by-cell (Left/Right) and row-by-row (Up/Down); <strong>Home/End</strong> jump to the first/last asset</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Shift + arrows</strong> extend a multi-selection as you move</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Space</strong> toggles the focused asset in/out of the selection</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Enter</strong> opens the focused image in the lightbox (or selects non-images)</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>F</strong> stars/unstars the focused asset; <strong>⌘A / Ctrl+A</strong> selects everything visible</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Delete / Backspace</strong> removes the focused asset or the whole selection</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The focused cell always scrolls into view, and clicking a card moves keyboard focus there too — so mouse and keyboard stay in sync</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 07, 2026</div>
+        <div class="entry-num">0.9.1</div>
+        <h3 class="sectitle">Bulk operations</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The multi-select bar now does more than delete. Select multiple assets (Cmd-click / Shift-click) and you can:</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Star / Unstar</strong> the whole selection in one click (toggles based on whether they&#x27;re all already favorited)</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Add to folder</strong> — pick any folder from a nested list</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Tag</strong> — type to filter existing tags or create a new one on the fly, applied to every selected asset</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Inline confirmation flashes after each action; selection stays put so you can chain operations (star → tag → move)</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 07, 2026</div>
+        <div class="entry-num">0.9.0</div>
+        <h3 class="sectitle">Color search</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Filter your whole library by color.</strong> A new <strong>Color</strong> control in the filter bar opens a swatch board built from the colors actually in your library — click one (or pick a custom color) to show every asset whose palette contains that color</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Matching uses perceptual color distance with <strong>Exact / Close / Loose</strong> tolerance, so &quot;find me everything with this orange&quot; works even when shades differ slightly</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Composable with everything else — color stacks on top of folder, tag, favorites, and text-search filters</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Matches across both images with extracted palettes and standalone palette assets</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 05, 2026</div>
+        <div class="entry-num">0.8.13</div>
+        <h3 class="sectitle">Custom domain</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Changelog + privacy pages moving to <code>morgueapp.com</code> (<code>changelog.morgueapp.com</code>, <code>privacy.morgueapp.com</code>); in-app Changelog link now points to <code>changelog.morgueapp.com</code></span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 05, 2026</div>
+        <div class="entry-num">0.8.12</div>
+        <h3 class="sectitle">Menu-bar icon</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Replaced the full-color app icon in the menu bar with a monochrome ghost <strong>template</strong> icon, so it adapts to light/dark menu bars and matches the system&#x27;s other icons (instead of looking out of place)</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.8.11</div>
+        <h3 class="sectitle">Version + changelog links</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Small footer in the Settings panel showing the app version and a <strong>Changelog</strong> link (opens the hosted changelog page)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Sidebar footer now shows the version + a Changelog link alongside the library location</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Version is read from <code>package.json</code> so it stays in sync automatically</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.8.10</div>
+        <h3 class="sectitle">Run in the background (menu-bar app)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Closing the window now <strong>hides</strong> Morgue instead of quitting, so the local capture bridge keeps serving the Chrome extension</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Added a <strong>menu-bar (tray) icon</strong> with <strong>Open Morgue</strong> / <strong>Quit Morgue</strong> — quit fully from there (or Cmd+Q)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Clicking the dock icon reopens the window when it&#x27;s hidden (macOS)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Extension tab note updated to explain the background behavior</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.8.9</div>
+        <h3 class="sectitle">Icons</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">&quot;Add to Chrome&quot; button now uses a globe icon</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The &quot;Palette&quot; option in the dashboard Add menu now uses a palette icon</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.8.8</div>
+        <h3 class="sectitle">Settings — Browser Extension tab</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New <strong>Extension</strong> tab in Settings with an <strong>&quot;Add to Chrome&quot;</strong> button (opens the Chrome Web Store listing in the default browser) and a live <strong>capture-bridge status</strong> indicator (pings <code>localhost:57432</code>)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Wired to the real listing (item ID <code>mcbapocgkibpbpdkccpkakdcnobjdmhk</code>); the link goes live once the listing is approved</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.8.6</div>
+        <h3 class="sectitle">Extension — Web Store prep</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Removed the unused <code>scripting</code> permission from the extension manifest (unnecessary permissions get rejected in review)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Bundled the Space Mono + Inter fonts <strong>locally</strong> in the extension (<code>extension/fonts/</code>, latin subset, ~115KB) and switched <code>popup.html</code>/<code>popup.css</code> to local <code>@font-face</code> — no more <code>fonts.googleapis.com</code> requests, so the popup works offline and avoids remote-resource scrutiny</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Extension bumped to 1.0.9 — re-zip and re-upload the package</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.8.4</div>
+        <h3 class="sectitle">Fix — drag-and-drop now uses pointer events (works in the Tauri WebView)</h3><ul class="items"><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Real cause found: Tauri&#x27;s OS-level drag-drop handler (kept on so images can be dragged in from Finder) intercepts native HTML5 drags — hence the green &quot;+&quot; cursor and drops never landing</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Reworked in-app dragging to use pointer events instead (new <code>lib/drag.ts</code>): a floating ghost follows the cursor, folder rows are detected via <code>data-folder-id</code>, and drops are resolved manually</span></li><li class="item sub" data-cat="fix"><span class="dot fix"></span><span class="itext">Folder grip (⠿): drag to reorder (top/bottom edge) or nest (middle)</span></li><li class="item sub" data-cat="fix"><span class="dot fix"></span><span class="itext">Asset cards: drag onto a folder to add it there</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Finder → app image import (the OS drag-drop) is unaffected</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Disabled native dragging on thumbnail images so it can&#x27;t re-trigger the OS drag</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.8.3</div>
+        <h3 class="sectitle">Fix — folder drag-and-drop (for real this time)</h3><ul class="items"><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Root cause: making the folder *row* <code>draggable</code> stopped it from receiving drop events in the WebView, which broke folder dragging AND asset-to-folder drops</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Folder rows are now plain drop targets again (restoring asset-to-folder), and dragging is done via a dedicated <strong>grip handle</strong> (⠿) on the left of each row — drag it to reorder (top/bottom edge) or nest (middle)</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.8.2</div>
+        <h3 class="sectitle">AI — auto-generated asset names (extension)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The extension&#x27;s &quot;✨ Suggest&quot; now also generates a concise, descriptive <strong>name</strong> from the page context (title + URL) plus the screenshot, and fills the name field — button relabeled &quot;Suggest Name, Palette &amp; Tags&quot;</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Claude&#x27;s analysis returns a <code>name</code> alongside palette + tags; the <code>/ai/analyze</code> bridge accepts optional page title/URL as context</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Settings AI tab: moved this from &quot;Planned&quot; to &quot;Enabled by your keys&quot;</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.8.1</div>
+        <h3 class="sectitle">Fix — folder &amp; asset drag-and-drop</h3><ul class="items"><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Drag-and-drop was broken (folders couldn&#x27;t be dragged/nested, and asset-to-folder stopped working). Cause: <code>dataTransfer.types.includes()</code> threw in the WebView (where <code>types</code> is a <code>DOMStringList</code>), aborting the drop handlers. Now uses an internal drag ref to tell folder vs asset drags apart — no reliance on the <code>types</code> API</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.8.0</div>
+        <h3 class="sectitle">Folders — sorting &amp; drag-and-drop</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New sort menu (next to the + in the Folders header): <strong>Newest first</strong> (default), <strong>A → Z</strong>, <strong>Z → A</strong>, and <strong>Manual</strong></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Drag folders to reorder (drop on the top/bottom edge of a row) or nest them (drop on the middle of a row) — reordering switches to Manual sort and is persisted; guards against cycles and the 4-level depth limit</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Sort preference persists across launches</span></li></ul><h3 class="sectitle">Tags — alphabetical</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tags in the sidebar are now always sorted A → Z (no more count-based ordering)</span></li></ul><h3 class="sectitle">Fonts — add to folders without favoriting</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Each font card has an <strong>add-to-folder</strong> button (folder picker) — adds the font to a folder even if it&#x27;s not favorited (e.g. a client&#x27;s brand font you need handy but don&#x27;t want starred)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Favoriting and library-membership are now decoupled: the star toggles <strong>favorite</strong> only; a font added to a folder lives in the library un-favorited; un-favoriting a font that isn&#x27;t in any folder removes it from the library</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.7.3</div>
+        <h3 class="sectitle">Settings — clickable console links</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The &quot;console.cloud.google.com&quot; and &quot;console.anthropic.com&quot; references in the AI tab are now real links that open in your default browser (via the opener plugin) — Google&#x27;s goes straight to the Web Fonts Developer API page, Anthropic&#x27;s to the API keys page</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.7.2</div>
+        <h3 class="sectitle">Google Fonts in the font browser</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Add your Google Fonts API key in Settings → AI (Web Fonts Developer API)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Font browser gains a <strong>LOCAL / GOOGLE</strong> toggle; Google mode previews the full catalog (sorted by popularity), searchable, with live remote previews</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Google font cards show a small &quot;G&quot; badge in the name box; save them to your library like local fonts</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Catalog fetched through the Rust backend (key stays local); <code>http://</code> file URLs rewritten to <code>https://</code> for the webview; renders the first 90 results with search to narrow down</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Backend: <code>set_google_fonts_key</code> / <code>google_fonts_key_status</code> / <code>google_fonts_list</code>; API-key config refactored to hold multiple keys in one file</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.7.1</div>
+        <h3 class="sectitle">AI — switched to Claude Haiku</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">AI palette/tag analysis now uses <code>claude-haiku-4-5</code> — faster and cheaper, with equivalent quality for this task</span></li></ul><h3 class="sectitle">Palettes — editable after creation</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Edit any palette in place: rename, change colors, add or remove swatches</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Edit from the <strong>asset details panel</strong> (pencil next to each assigned palette) or from a <strong>palette&#x27;s own details</strong> (pencil in the header)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Edits apply everywhere the palette is used; the palette builder reused for both create &amp; edit (<code>updatePalette</code>)</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.7.0</div>
+        <h3 class="sectitle">AI — Claude palette + tag suggestions (app + extension)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Settings → AI:</strong> add your Anthropic (Claude) API key. Stored locally in <code>ai_config.json</code>, never sent anywhere but Anthropic, and shared with the extension via the local bridge. Connected/replace/remove states; key is never read back to the UI.</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>App (asset details):</strong> new &quot;✨ Suggest Palette &amp; Tags&quot; on image assets — analyzes the image with Claude (vision) and returns a suggested color palette + descriptive tags. Save &amp; assign the palette in one click; add tags individually or all at once (already-applied tags are marked).</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Extension popup:</strong> &quot;✨ Suggest Palette &amp; Tags&quot; analyzes the captured screenshot; suggested tags merge into the tags field and a suggested palette is saved &amp; attached to the capture automatically (clearable).</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Backend:</strong> new <code>ai</code> module (Anthropic Messages API, <code>claude-sonnet-4-6</code>), Tauri commands <code>set_ai_key</code> / <code>ai_key_status</code> / <code>ai_analyze_image</code>, and a <code>/ai/analyze</code> bridge endpoint. Capture endpoint extended to persist an attached palette.</span></li></ul><h3 class="sectitle">App icon — temporarily disabled</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Custom app-icon switching is disabled for now (still being refined); the app uses its default icon. The switcher is shown greyed-out in Settings.</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.6.9</div>
+        <h3 class="sectitle">Dock icon — actually persists on first change now</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The Dock caches a non-running app&#x27;s icon and only re-reads it on the app&#x27;s next launch — which is why an icon change only &quot;stuck&quot; after reopening. After writing the icon to the bundle, the Dock is now restarted (<code>killall Dock</code>, it relaunches instantly) so the change is reflected immediately, including the closed state</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Removed the launch-time re-apply (no longer needed now that the icon lives on the <code>.app</code> bundle) so the Dock isn&#x27;t restarted on every app open</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.6.8</div>
+        <h3 class="sectitle">Dock icon — fix first-change persistence &amp; live revert</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">After writing the icon to the <code>.app</code> bundle, the icon cache is now invalidated (<code>noteFileSystemChanged:</code>) so the Dock/Finder pick it up <strong>immediately</strong> — previously the change only stuck after a relaunch (the Dock kept the icon it cached at launch)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The live running tile is now set from the bundle&#x27;s *current* icon (<code>iconForFile:</code>), so selecting <strong>Default</strong> reverts the icon right away instead of waiting for a restart</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.6.7</div>
+        <h3 class="sectitle">Dock icon — persists even when the app is closed</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Selecting a custom icon now also writes it onto the <code>.app</code> bundle via <code>NSWorkspace setIcon:forFile:</code> (same mechanism as Finder&#x27;s &quot;paste custom icon&quot; — uses extended attributes, doesn&#x27;t touch the signed bundle contents), so the Dock &amp; Finder keep showing your chosen icon after quitting</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Choosing &quot;Default&quot; clears the custom bundle icon, restoring the original</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Fixed a latent bug: icon paths are now passed to <code>initWithUTF8String:</code> as null-terminated <code>CString</code>s</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Note: bundle persistence only applies to the built <code>.app</code> (not <code>tauri dev</code>)</span></li></ul><h3 class="sectitle">Lightbox — palette builder z-index</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">&quot;Create New Palette&quot; now opens above the full-screen image viewer (was rendering behind it)</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.6.6</div>
+        <h3 class="sectitle">Dock icon — persists across launches</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">The selected app icon (3D / Dark) is now re-applied on every launch — macOS resets the dock icon to the bundle default each time, so we restore the saved choice on startup</span></li></ul><h3 class="sectitle">Library — relocate to any folder + move assets</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New <strong>&quot;Choose New Location&quot;</strong> in Settings → Library: move your library to an external drive or a cloud-synced folder (Google Drive, Dropbox, OneDrive…)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">A <code>Morgue Library</code> folder is created inside the chosen location; all asset files are moved (instant rename on same volume, copy+delete across drives) and their DB paths re-linked automatically</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Library root is persisted in <code>library_location.txt</code> and resolved fresh for imports + extension captures, so the new location takes effect immediately</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Asset protocol scope broadened to include <code>/Volumes/**</code> (external drives); cloud drives under the home folder were already covered</span></li></ul><h3 class="sectitle">Fonts — favoriting</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Favoriting (saving) a font now also adds it to <strong>Favorites</strong>, not just All Assets</span></li></ul><h3 class="sectitle">Planned (noted)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Google Fonts API key support — let users add their own key to browse &amp; preview Google Fonts in the font browser</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.6.5</div>
+        <h3 class="sectitle">App icons — size match</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">3D / Dark dock icons inset to the macOS icon grid (content at ~80.5% of the tile, standard transparent margin) so they match the Default icon&#x27;s footprint instead of reading oversized</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.6.4</div>
+        <h3 class="sectitle">App icons — new options + proper dock rendering</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Icon options are now <strong>Default / 3D Ghost / Dark</strong></span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">Default = the original flat orange ghost</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">3D Ghost = new sculpted ghost on orange squircle (<code>morgue-3d</code>)</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">Dark = cream ghost glowing on dark navy (<code>morgue-dark-clipped</code>)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Default now restores the real bundle icon</strong> at runtime (<code>setApplicationIconImage: nil</code>) instead of loading a low-res PNG — so it&#x27;s crisp, rounded, and correctly sized in the dock</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">3D / Dark dock icons regenerated as full-bleed <strong>1024px squircle PNGs</strong> with transparent macOS-radius corners (no more white corners on 3D, no more square edges on Dark) so they read as true app icons</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Removed the now-unused <code>icon-flat.png</code> bundled resource</span></li></ul><h3 class="sectitle">Settings — gear icon</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Replaced the header Settings gear with a cleaner icon, stroke-weighted to match the other header icons</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.6.1</div>
+        <h3 class="sectitle">Fix — picker width in lightbox sidebar</h3><ul class="items"><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">PalettePicker/FontPicker width now calculated from the parent panel (<code>aside</code> or <code>[data-theme]</code>) not the tiny <code>+</code> button</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Min width 220px enforced so pickers are always readable</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.6.0</div>
+        <h3 class="sectitle">Settings modal</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Gear icon restored to header — opens Settings modal</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Three tabs: Appearance, Library, AI</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Appearance tab:</strong></span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">App icon switcher — Flat / 3D / Ghost, persisted across restarts</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">Theme default — visual light/dark previews, same toggle as header</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">Icon change note (takes effect on next launch)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Library tab:</strong></span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">Shows full library path</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">&quot;OPEN&quot; button reveals the library folder in Finder via <code>open -R</code></span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">&quot;Relocate Library&quot; placeholder — coming next release</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>AI tab:</strong></span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">Coming soon placeholder with planned features listed</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">Claude + OpenAI key input, palette extraction, tag suggestions, extension integration</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New Rust command: <code>reveal_in_finder(path)</code> — opens Finder with the path selected</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.5.6</div>
+        <h3 class="sectitle">App — tag section spacing</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Assigned tags now appear above the input (not below suggestion chips)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">10px gap between assigned tags and the add-tag input</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">8px gap between suggestions and input</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Clearer visual hierarchy: existing tags → input → suggestions</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.5.5</div>
+        <h3 class="sectitle">App — palette/font picker z-index fix</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">PalettePicker and FontPicker now render via <code>ReactDOM.createPortal</code> attached to <code>document.body</code> with <code>position: fixed</code> — they no longer get clipped by the info panel&#x27;s <code>overflow: auto</code> scroll container</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Anchor position calculated with <code>getBoundingClientRect()</code> so dropdowns open directly below their trigger button regardless of scroll position</span></li></ul><h3 class="sectitle">App — tag suggestions in info panel</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">TagAdder now shows existing tags as clickable chips when opened</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Chips filter as you type — helps avoid duplicates like <code>#footer</code> vs <code>#Footer</code></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Click a chip to add instantly; type and press Enter to create a new tag</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tags fetched from DB on open</span></li></ul><h3 class="sectitle">Extension — icon updated to 3D transparent ghost</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Using <code>morgue-3d-transparent.png</code> — rounded square, cleaner edges</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">2026-06-04 · EXTENSION 1.0.4</div>
+        <div class="entry-num">0.5.4</div>
+        <h3 class="sectitle">Extension — icon updated to 3D ghost (1.0.4)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Switched back to 3D ghost icon (<code>morgue-3d.png</code>) — orange rounded square with cream cloth ghost</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">2026-06-04 · EXTENSION 1.0.3</div>
+        <div class="entry-num">0.5.4</div>
+        <h3 class="sectitle">App — sidebar selection fix</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Clicking a folder or tag now clears the selected asset — folder/tag panel shows immediately even if an image was previously selected</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><code>selectLib</code>, <code>selectFolder</code>, <code>selectTag</code> in Sidebar all call <code>setSelectedAsset(null)</code></span></li></ul><h3 class="sectitle">Extension — new icon (1.0.3)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Updated to flat 2D ghost icon — cleaner at small toolbar sizes</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">16/48/128px all regenerated from new source</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">2026-06-04 · EXTENSION 1.0.2</div>
+        <div class="entry-num">0.5.3</div>
+        <h3 class="sectitle">App — folder rename sidebar fix</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Renaming a folder now updates the left sidebar immediately — <code>loadFolders()</code> added to the <code>assetVersion</code> effect so folder names sync on every mutation</span></li></ul><h3 class="sectitle">Extension — polish (1.0.2)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Ghost icon applied to extension toolbar (16/48/128px)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Popup rounded corners (<code>border-radius: 12px</code>) — no more sharp square popup</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">White bleed removed — <code>html</code> background set to transparent, header clips to rounded top corners</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">2026-06-04 · EXTENSION 1.0.1</div>
+        <div class="entry-num">0.5.2</div>
+        <h3 class="sectitle">App — folder &amp; tag rename</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Right info panel now shows a folder detail view when a folder is selected (no asset selected)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Right info panel shows a tag detail view when a tag is selected</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Folder name editable inline — click to rename, Enter/blur saves, propagates everywhere</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tag name editable inline — <code>#</code> is fixed, edit the word part only, updates all assets instantly</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Both panels show asset count and a hint about rename propagation</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New DB functions: <code>updateFolderName</code>, <code>updateTagName</code>, <code>fetchFolderById</code>, <code>fetchTagById</code></span></li></ul><h3 class="sectitle">Extension — custom folder dropdown (1.0.1)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Replaced native <code>&lt;select&gt;</code> with custom overlay dropdown matching the app&#x27;s &quot;Add New&quot; menu style</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Folder icon, checkmark on selected item, animated chevron, closes on outside click</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Dark/light themed, matches Morgue aesthetic</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">2026-06-04 · EXTENSION 1.0.0</div>
+        <div class="entry-num">0.5.1</div>
+        <h3 class="sectitle">App</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Sidebar and info panel height restored to full height after resize handle refactor</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Layout simplified — panels are direct flex children, <code>height: 100%</code> resolves correctly</span></li></ul><h3 class="sectitle">Extension — v1.0.0</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">First stable release of the Morgue Chrome Extension</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Matches full Morgue app theme (light + dark mode)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">One-click capture with screenshot, name, URL, folder, and tag assignment</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tag suggestions pulled live from your Morgue library</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Offline queue — captures saved locally and synced when app reopens</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Right-click context menu for pages, images, and links</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">⌘⇧M keyboard shortcut</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.5.0</div>
+        <h3 class="sectitle">App — sidebar drag fix</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Rewrote drag handles to use direct DOM style mutation during drag — no React re-renders, completely smooth</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Sidebar and info panel now always fill 100% height (fixed <code>minHeight: 0</code> + <code>height: 100%</code> on flex containers)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Widths only commit to Zustand store on <code>mouseUp</code>, not every pixel of movement</span></li></ul><h3 class="sectitle">App — HTTP server <code>/tags</code> endpoint</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New <code>GET /tags</code> endpoint returns all existing tag names from SQLite</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Used by extension to populate tag suggestions</span></li></ul><h3 class="sectitle">Extension — tag improvements</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Existing tags fetched from Morgue app and shown as clickable chip suggestions below the tags input</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Chips update dynamically as you type — shows matching tags, filtered by current input</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Click a chip to add it; click again to remove it</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tags correctly styled in dark mode (used CSS variables throughout)</span></li></ul><h3 class="sectitle">Extension — dark mode polish</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Select/dropdown dark mode: chevron arrow recoloured for dark bg, <code>option</code> elements inherit theme colours</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tag chips use <code>var(--accent)</code> and <code>var(--border)</code> — work correctly in both themes</span></li></ul><h3 class="sectitle">Extension — screenshot rounded corners</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Preview image and container now have <code>border-radius: 8px</code> for a softer feel</span></li></ul><h3 class="sectitle">Extension — version → 0.5.0</h3><ul class="items"></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.4.0</div>
+        <h3 class="sectitle">Extension — dark mode toggle</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Sun/moon toggle button in popup header</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Dark theme CSS variables (<code>[data-theme=&quot;dark&quot;]</code>) added to <code>popup.css</code></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Preference persisted in <code>chrome.storage.local</code> — survives browser restarts</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Toggle applies instantly without page reload</span></li></ul><h3 class="sectitle">App — real-time extension sync</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">HTTP server now emits a Tauri event (<code>morgue-asset-added</code>) after every <code>/capture</code></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">React frontend listens via <code>@tauri-apps/api/event</code> and calls <code>invalidateAssets()</code></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Assets, tags, and counts update instantly when extension saves — no restart needed</span></li></ul><h3 class="sectitle">App — resizable sidebars</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Left sidebar and right info panel are now drag-resizable</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Drag handle on the inner border of each panel — <code>col-resize</code> cursor</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Left sidebar: 200px min → 400px max</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Right info panel: 220px min → 440px max</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Widths persisted in Zustand store (saved across restarts)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Grid columns reflow dynamically as sidebar width changes</span></li></ul><h3 class="sectitle">Crash fix</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Fixed <code>tokio::spawn</code> panic in <code>.setup()</code> — Tauri&#x27;s setup runs before its tokio runtime</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Now uses <code>std::thread::spawn</code> + <code>tokio::runtime::Runtime::new()</code> for the HTTP server thread</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">App no longer crashes on launch with 0.3.0 binary</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.3.0</div>
+        <h3 class="sectitle">Chrome Extension</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New <code>extension/</code> directory — manifest v3 Chrome extension</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Popup</strong> matches full Morgue editorial theme (Space Mono, warm off-white, orange accent, grain overlay)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">4 popup states: offline (Morgue not running), main capture form, success, error</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Auto-captures visible tab screenshot via <code>chrome.tabs.captureVisibleTab()</code></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Pre-fills name (page title) and source URL from active tab</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Folder picker dropdown (populated from Morgue&#x27;s real folder list)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tags input with <code>#tag</code> syntax</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><code>⌘⇧M</code> keyboard shortcut to open popup</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Right-click context menu: &quot;Save page / image / link to Morgue&quot;</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Offline queue — if Morgue is closed, captures are stored in <code>chrome.storage.local</code> and auto-flushed when the app comes back online (retries every 30s)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Extension icons: 16px, 48px, 128px from Morgue icon set</span></li></ul><h3 class="sectitle">Localhost HTTP server (port 57432)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Axum HTTP server starts automatically when Morgue launches</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">CORS permissive — works with any Chrome extension origin</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><code>GET /status</code> — returns <code>{ok, version}</code>, used by extension to detect if app is open</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><code>GET /folders</code> — returns full folder tree from SQLite for the popup picker</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><code>POST /capture</code> — fully wired end-to-end:</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">Decodes base64 PNG screenshot → saves to <code>~/Library/Application Support/com.morgue.morgue/library/{uuid}.png</code></span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">Inserts <code>assets</code> record (type = image) with name, source URL, file path</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">Assigns to folder via <code>asset_folders</code> if folder selected</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">Upserts tags into <code>tags</code> + <code>asset_tags</code> tables</span></li><li class="item sub" data-cat="feature"><span class="dot feature"></span><span class="itext">Assets appear in Morgue grid immediately on next refresh</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Dependencies added: <code>axum 0.7</code>, <code>tokio 1</code> (full), <code>tower-http 0.5</code> (CORS), <code>base64 0.22</code>, <code>sqlx 0.8</code> (sqlite + runtime-tokio)</span></li></ul><h3 class="sectitle">Other</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Morgue app icon applied to extension icons</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Version bumped 0.2.0 → 0.3.0 to reflect new compiled binary with HTTP server</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 04, 2026</div>
+        <div class="entry-num">0.2.0</div>
+        <h3 class="sectitle">App renamed</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Renamed from <strong>InspoSaver</strong> to <strong>Morgue</strong></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">New app icon set applied (all sizes: 16, 32, 64, 128, 256, 512, 1024px + .icns + .ico)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">DB renamed from <code>insposaver.db</code> → <code>morgue.db</code></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Bundle identifier updated to <code>com.morgue.morgue</code></span></li></ul><h3 class="sectitle">Core infrastructure</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tauri 2 + React + TypeScript + SQLite (embedded, zero infra)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Fully frameless window — custom traffic light buttons wired to Tauri window commands</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Light / dark mode with instant toggle, persisted across restarts (no flash on load)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Grain texture overlay on background (CSS SVG noise, theme-aware)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Global autocorrect / autocapitalize disabled on all inputs</span></li></ul><h3 class="sectitle">Asset grid</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Import images via drag &amp; drop (OS-level, catches files dropped anywhere on window) or file picker</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Duplicate drag import fixed — single global listener, React StrictMode-safe</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Grid column count (4 / 5 / 6) persisted in store across restarts</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Asset type filters: ALL / IMAGES / PALETTES / FONTS</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Sidebar search wired to FTS5 full-text index (name, URL, notes)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext"><strong>Multi-select</strong>: ⌘/Ctrl+Click to add, Shift+Click for range, Escape to clear</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Bulk delete with confirmation dialog when multiple selected</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Keyboard Delete/Backspace to delete selected asset(s)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Favorite star on card hover (top-left); filled orange when favorited; always visible when active</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Hover delete (×) button (top-right), turns red on hover</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Double-click image card opens full lightbox viewer</span></li></ul><h3 class="sectitle">Asset types</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Real thumbnails via Tauri asset protocol (<code>convertFileSrc</code>)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Files copied to managed library directory (<code>~/Library/Application Support/com.morgue.morgue/library/</code>)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">UUID-named files on disk, display name editable separately</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Manual palette builder: name + up to 12 colour swatches</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Colour picker (native OS) + hex input per swatch</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Live stripe preview as you add/edit colours</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Palette cards show colour stripe bands in the grid</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Deleting a palette asset also removes the underlying palette record (no ghost on restart)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">System font scanner: reads <code>/Library/Fonts</code>, <code>/System/Library/Fonts</code>, <code>~/Library/Fonts</code></span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Deduplication by (family, style) — fonts installed in multiple dirs shown once</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Live <code>@font-face</code> injection — each card renders in the actual font</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Editable preview text field (applies to all cards)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Favorites filter (SAVED button) to show only saved fonts</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Star button matches main grid style</span></li></ul><h3 class="sectitle">Info panel (right sidebar)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Favorite star toggle</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Editable filename (click to rename — updates grid card immediately)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Editable source URL (hidden for palettes/fonts — used internally)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Folder assignment (assign/remove asset from any folder)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Color palette assignment picker (assign saved palettes; create new from picker)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Font assignment picker (assign saved fonts; navigate to Browse Fonts from picker)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tags (add inline, click to remove)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Notes (textarea, saves on blur)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Date added</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">DELETE ASSET button (hidden for font assets — system files not managed by app)</span></li></ul><h3 class="sectitle">Folders</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Real SQLite-backed folders (not hardcoded)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Hierarchical tree, up to 4 levels deep</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Inline input to create root folders (no native dialog — works in Tauri WebKit)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Subfolder creation: hover any folder → <code>+</code> button appears inline</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Folder counts show number of assets assigned</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Drag asset card from grid → drop on sidebar folder to assign</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Click folder → filters grid to that folder&#x27;s assets</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Auto-assigns newly imported images to the current folder when viewing one</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Delete folder (with confirmation): removes folder, not assets</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Folder counts refresh when assets are modified</span></li></ul><h3 class="sectitle">Tags</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Real tags with counts loaded from DB</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Click tag in sidebar → filters grid</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tags list refreshes when new tags are added (no restart needed)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Delete tag (with confirmation): removes from all assets, not the assets themselves</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tags also editable per-asset in the info panel</span></li></ul><h3 class="sectitle">Lightbox (full image viewer)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Two-panel: dark image area (left) + metadata sidebar (right)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Sidebar respects app theme (light/dark)</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Keyboard: ← → to navigate images, Escape to close</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Prev/Next arrow buttons with frosted dark circle style</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">N / total counter</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Sidebar fully editable: filename, source URL, folders, palettes, fonts, tags, notes</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Favorite star in sidebar header</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Palette assets show colour stripe view instead of image</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Navigation limited to image-type assets (palettes/fonts excluded)</span></li></ul><h3 class="sectitle">Color palette builder modal</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Triggered from ADD menu or from Palette picker in info panel</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">After creation, auto-assigns to the asset that opened the picker</span></li></ul><h3 class="sectitle">Confirmation dialogs</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Delete asset, delete folder, delete tag, bulk delete — all gated behind confirm</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Escape cancels, Enter confirms</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Each dialog explains what will/won&#x27;t be deleted</span></li></ul><h3 class="sectitle">Bug fixes</h3><ul class="items"><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">React hooks violation fixed (IIFE <code>useState</code> in JSX → extracted to proper components)</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext"><code>morgue.db</code> migration mismatch fixed (<code>lib.rs</code> now registers migrations for correct DB name)</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Palette ghost-on-restart fixed (deleting palette asset now cascades to <code>palettes</code> table)</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Font unfavorite fixed (delete button correctly removes DB record)</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext"><code>window.prompt</code> replaced with inline inputs (blocked in Tauri WebKit)</span></li><li class="item" data-cat="fix"><span class="dot fix"></span><span class="itext">Sidebar tags now refresh immediately when new tags are added</span></li></ul>
+      </section>
+      <section class="entry">
+        <div class="entry-date">JUNE 03, 2026</div>
+        <div class="entry-num">0.1.0</div>
+        <h3 class="sectitle">Initial build (InspoSaver)</h3><ul class="items"><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Tauri 2 scaffold with React + TypeScript + Tailwind CSS v4</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">SQLite schema with migrations: assets, tags, folders, palettes, palette_colors, asset_fonts, asset_palettes, asset_folders, FTS5 virtual table</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Basic asset grid with placeholder mock data</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Sidebar layout with hardcoded folders/tags</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Info panel shell</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Light/dark theme toggle with CSS custom properties</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Custom frameless window with traffic light buttons</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Font scanner (Rust) reading system font directories</span></li><li class="item" data-cat="feature"><span class="dot feature"></span><span class="itext">Font browser with <code>@font-face</code> live preview</span></li></ul>
+      </section></div>
     </div>
-    <h1>Changelog</h1>
-    <p class="sub">Release notes for Morgue — a local-first design inspiration manager.</p>
-    
-    <section class="ver latest">
-      <div class="ver-head">
-        <span class="num">1.1.0</span>
-        <span class="pill">LATEST</span>
-        <span class="date">2026-06-12</span>
-      </div>
-      <h3>Color &amp; type tools, plus sharper filtering</h3><ul><li class=""><strong>Contrast checker</strong> — see the <strong>WCAG contrast ratio</strong> between palette colors, flagged <strong>AA / AAA / Fail</strong>, in the palette builder, the info panel, and on a palette asset — quick checks for accessible text-on-background pairs</li><li class=""><strong>Export palettes</strong> — copy or save any palette as <strong>CSS variables, SCSS, Tailwind config, JSON, a hex list, or an Adobe <code>.ase</code></strong> swatch file, with a custom variable name so it drops straight into your project</li><li class=""><strong>Advanced filters</strong> — narrow your library by <strong>date added</strong> (presets or a custom range), <strong>source site</strong> (everything saved from a given domain), and <strong>orientation</strong> (landscape / portrait / square) — all stacking with your existing folder, tag, color, and search filters</li><li class=""><strong>Faster properties</strong> — image <strong>dimensions</strong> in the details panel now appear instantly instead of waiting on the image to load</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">1.0.1</span>
-        
-        <span class="date">2026-06-12</span>
-      </div>
-      <h3>Asset properties, easier color search &amp; smoother updates</h3><ul><li class=""><strong>Asset properties at a glance</strong> — the details panel and full-screen view now show <strong>dimensions, file size, type, and the dates imported/modified</strong></li><li class=""><strong>Color search is easier to find</strong> — type a <strong>hex code</strong> (like <code>#5B7FFF</code>) in the search bar to pull up every asset and palette using that color, and a small <strong>color chip</strong> appears so it&#x27;s clear you&#x27;re searching by color</li><li class=""><strong>Copies now show up in clipboard managers</strong> — copying a swatch&#x27;s hex lands in your clipboard <strong>history</strong> (Paste, etc.), not just on the next paste</li><li class=""><strong>Check for updates anytime</strong> — a new <strong>Check for updates</strong> option in Settings, and Morgue now re-checks periodically while it&#x27;s running, so you&#x27;ll hear about a new version even if you rarely quit the app</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">1.0.0</span>
-        
-        <span class="date">2026-06-11</span>
-      </div>
-      <h3>Morgue 1.0 🎉</h3><ul><li class=""><strong>Color search</strong> — type a <strong>hex code</strong> in the search bar to find every asset and palette using that color; an empty search now shows a clear <strong>&quot;No matches&quot;</strong> state instead of looking like an empty library</li><li class=""><strong>Accessibility</strong> — the asset grid is <strong>fully keyboard-navigable</strong> (arrows, Home/End, Space, Enter, ⌘A) with visible focus rings, and Morgue now <strong>respects your macOS high-contrast and reduced-motion</strong> settings</li><li class=""><strong>Toast notifications</strong> — quick, unobtrusive confirmations for actions like export, import, and copy (and clear messages when something fails)</li><li class=""><strong>Refined window</strong> — rounded corners with native-style window controls and full-screen support</li><li class=""><strong>Safer imports</strong> — importing a backup no longer <strong>duplicates boards</strong>, and imports are now <strong>all-or-nothing</strong>, so a failed import can&#x27;t leave a half-imported library</li><li class=""><strong>Licensing fix</strong> — closed an edge case where an offline or not-yet-activated device could lock itself out</li><li class="">Plus reliability and polish throughout</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.21.1</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Extension polish</h3><ul><li class="">The extension popup is a bit <strong>wider</strong> so longer titles and the capture-mode buttons have room to breathe</li><li class="">The <strong>Visible / Full page / Region</strong> buttons are now properly aligned with the preview and evenly spaced</li><li class="">Requires extension <strong>v1.0.16</strong></li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.21.0</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Full-page &amp; region capture (extension)</h3><ul><li class="">The extension can now capture in <strong>three modes</strong>, chosen from buttons above the preview:</li><li class="sub"><strong>Visible</strong> — the current viewport (as before)</li><li class="sub"><strong>Full page</strong> — scrolls the whole page and stitches it into one tall screenshot (fixed/sticky headers are hidden after the first slice so they don&#x27;t repeat)</li><li class="sub"><strong>Region</strong> — drag a box over any part of the page to grab just that area</li><li class="">Full-page capture shows live progress; region capture lets you draw a selection right on the page (Esc to cancel)</li><li class="">Requires extension <strong>v1.0.15</strong></li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.20.0</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Web fonts preview true-to-type</h3><ul><li class="">Fonts captured from the web (not just local fonts) now <strong>preview in their real typeface</strong> across the sidebar, grid, and boards — the app stores a loadable font URL when there&#x27;s no local file and loads the actual face</li><li class="">Falls back gracefully to a system copy, then a default, when a font genuinely can&#x27;t be loaded</li><li class="">Applies to <strong>newly captured</strong> fonts going forward</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.19.0</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Board templates</h3><ul><li class="">New boards can <strong>start from a template</strong> instead of a blank canvas — pick one from the empty board&#x27;s &quot;Start from a template&quot; row</li><li class="">Four layouts to begin with: <strong>Comparison</strong> (A/B), <strong>Before / After</strong>, <strong>Brand Board</strong> (logo / color / type / imagery), and <strong>Three Sections</strong> (inspiration / direction / references)</li><li class="">Templates drop in labeled heading sections, centered in view — then you fill each area with assets, notes, and connectors as usual</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.18.0</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>AI focuses on name + palette (no more auto-tags)</h3><ul><li class="">AI now suggests just a <strong>name and a color palette</strong> — the two things it&#x27;s reliably great at. <strong>Tagging is fully manual</strong> again, so your tags stay meaningful and intentional</li><li class="">Desktop: the AI panel shows a <strong>Suggested name</strong> (one click to apply) alongside the suggested palette</li><li class="">Extension: the AI/auto-suggest fills the <strong>name and palette</strong> only; it no longer injects guessed tags into your tag field</li><li class="">Requires extension <strong>v1.0.14</strong> and an app rebuild</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.17.6</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>AI tags: fewer, and about why you saved it</h3><ul><li class="">AI now suggests <strong>3–5 tags, fewer is better</strong> — capped at 5 — instead of an exhaustive description</li><li class="">It recognizes <strong>non-UI work</strong> (illustration, packaging, posters, branding, product photos) and tags the <strong>design discipline</strong> a designer would save it for — e.g. *packaging design*, *label illustration*, *craft beer* — rather than generic photo descriptors</li><li class=""><strong>No more near-duplicates</strong> (e.g. not both *product photography* and *food photography*), and photography-genre tags are only used when the photography itself is the point</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.17.5</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>AI tags now lead with the design type</h3><ul><li class="">AI now <strong>identifies what kind of UI/design it is first</strong> — e.g. *saas landing page*, *dashboard ui*, *pricing page*, *login screen*, *mobile app*, *blog layout* — then the major components, then the industry</li><li class=""><strong>Incidental atoms aren&#x27;t tagged anymore</strong> — *button*, *logo*, *icon*, *input*, *menu*, *badge*, etc. are dropped *unless that element is the whole point of the shot* (a dedicated logo or button/icon showcase keeps them)</li><li class="">Fewer, more meaningful tags overall</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.17.4</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Even tighter AI tags</h3><ul><li class="">AI no longer suggests <strong>bare fragments</strong> like *landing*, *page*, *section*, *cloud*, *header*, *grid*, or *card* — it must use the complete component name (*landing page*, *hero section*, *logo cloud*, *bento grid*, *blog cards*)</li><li class=""><strong>Brand / business noise</strong> is filtered out too — *studio*, *brand*, *content*, *platform*, *product*, *template*, *company*, and similar are dropped (and the model is told not to tag the brand&#x27;s own name)</li><li class="">A few more mood adjectives joined the block-list (*bold*, *vibrant*, *premium*, *luxury*, …); when there isn&#x27;t enough concrete detail, the AI now returns fewer tags instead of padding with filler</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.17.3</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Fix: auto-suggest now lands before save</h3><ul><li class="">With <strong>Auto-suggest on capture</strong> enabled, hitting <strong>Save to Morgue</strong> now waits for the AI to finish so the suggested <strong>tags and palette are included in the capture</strong> — previously a fast save could beat the AI and store nothing</li><li class="">The Save button shows <strong>&quot;Analyzing…&quot;</strong> briefly while it waits</li><li class="">Requires extension <strong>v1.0.13</strong></li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.17.2</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Fix: &quot;Server error 413&quot; when capturing</h3><ul><li class="">Captures and AI analysis with large screenshots no longer fail with <strong>413 (payload too large)</strong> — the local bridge now accepts much bigger images (up to 64 MB) instead of the previous 2 MB cap</li><li class="">Requires updating/relaunching the desktop app</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.17.1</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Auto-suggest on capture (extension)</h3><ul><li class="">New <strong>&quot;Auto-suggest on capture&quot;</strong> toggle in the browser extension — when on, AI runs automatically as the popup opens and pre-fills the name, palette, and (smarter) tags, so you can just hit Save</li><li class="">Off by default and remembered between captures, so there&#x27;s no surprise API usage</li><li class="">Requires extension <strong>v1.0.12</strong></li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.17.0</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Smarter AI tags</h3><ul><li class="">AI tag suggestions now name <strong>concrete, recognizable things</strong> in the image — UI components and layout patterns like *blog cards*, *news cards*, *pricing table*, *hero section*, *bento grid*, *testimonial grid*, plus the kind of page/product and its industry</li><li class=""><strong>Generic filler is gone</strong> — vague aesthetic/mood tags like *modern*, *minimal*, *clean*, *modern typography*, *ui*, and *inspiration* are no longer suggested (and are filtered out even if the model returns them)</li><li class="">Applies everywhere AI suggestions appear — the desktop info panel and the browser extension (both share the same engine)</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.16.2</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>True-to-type font previews everywhere</h3><ul><li class="">The real typeface now renders for fonts <strong>on the grid and on boards</strong> too — not just the sidebar — loading the actual font file when it&#x27;s known</li><li class="">Grid font cards show a larger <strong>Aa</strong> specimen in the font&#x27;s own face</li><li class="">Consistent graceful fallback (system copy → default) when a font has no local file</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.16.1</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>True-to-type font previews</h3><ul><li class="">Fonts in the sidebar now preview using their <strong>actual font file</strong> when it&#x27;s a local font — the app loads the real typeface instead of relying on a system copy being installed under the same name</li><li class="">Falls back gracefully to a system-installed copy (then a default) when no font file is available (e.g. fonts captured from the web)</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.16.0</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Browse your library by font</h3><ul><li class="">New <strong>Fonts</strong> section in the sidebar lists every typeface across your library — saved fonts plus fonts detected on your assets — each previewed <strong>in its own typeface</strong> with a count</li><li class=""><strong>Click a font</strong> to filter the grid to everything that uses it (the saved font swatch and any asset it appears on)</li><li class="">The list updates automatically as you capture new fonts, and the section collapses like Folders/Boards/Tags</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.15.0</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Unified search</h3><ul><li class="">The library search now matches across <strong>name, source site, notes, tags, and fonts</strong> — not just names. So you can find everything you saved from a site by typing its domain, or pull up every asset using a given typeface</li><li class=""><strong>Fonts are now searchable</strong> — search a font family and you&#x27;ll get the saved font plus any asset it was detected on</li><li class=""><strong>Multi-word search</strong> narrows results: every word you type must match somewhere (e.g. <code>figma hero</code> finds assets that match both)</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.14.3</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Board drag polish</h3><ul><li class="">Boards now show a <strong>drag-handle (grip dots)</strong> on the left, matching folders — grab it to reorder</li><li class="">A <strong>floating label of the board&#x27;s name</strong> follows your cursor while dragging, so it&#x27;s clear what you&#x27;re moving</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.14.2</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Fix: board drag-reordering</h3><ul><li class=""><strong>Dragging boards now actually works</strong> — switched to the same pointer-based drag the folders use (the webview doesn&#x27;t fire native drag events), so reordering is reliable. Double-click-to-rename and click-to-open are unaffected</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.14.1</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Reorder boards</h3><ul><li class=""><strong>Drag boards</strong> in the sidebar to reorder them — a drop indicator shows where it&#x27;ll land, and the order is saved</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.14.0</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Board: connectors &amp; arrows</h3><ul><li class=""><strong>Connect two items</strong> with a line or arrow — select exactly two items and hit <strong>Connect</strong> in the toolbar</li><li class="">Connectors <strong>follow their items</strong> as you move and resize them, anchoring to the nearest edge</li><li class=""><strong>Click a connector</strong> to select it, then recolor it (5 presets), <strong>toggle the arrowhead</strong> on/off, or remove it (<strong>Delete</strong>)</li><li class="">Removing an item automatically cleans up any connectors attached to it</li><li class="">Connectors are <strong>included in board exports</strong> (and print to PDF) just like everything else</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.13.0</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Board: floating toolbar + multi-select</h3><ul><li class="">The board tools now live in a <strong>floating toolbar at the bottom</strong> of the canvas instead of the header — it stays out of the way and surfaces contextual controls (size, color, layering, duplicate, remove) only when something is selected</li><li class=""><strong>Multi-select</strong>: shift-click items to add/remove from the selection, or <strong>shift-drag on empty canvas</strong> to rubber-band a group. Move the whole group together in one drag (with snapping)</li><li class=""><strong>Duplicate</strong> selected items with the toolbar button or <strong>⌘D</strong></li><li class=""><strong>Copy / paste</strong> items with <strong>⌘C / ⌘V</strong></li><li class=""><strong>Select all</strong> with <strong>⌘A</strong>; <strong>Delete/Backspace</strong> removes everything selected; <strong>Esc</strong> clears the selection</li><li class="">Layering (forward/back), text size, and note color now apply to <strong>all selected items</strong> at once</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.12.1</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Board snapping + collapsible sidebar</h3><ul><li class="">Boards now have <strong>snapping with alignment guides</strong> — drag an item and it snaps to other items&#x27; edges and centers, with orange guide lines showing the alignment. Toggle it on/off with the <strong>Snap</strong> button</li><li class="">The sidebar&#x27;s <strong>Folders, Boards, and Tags sections collapse</strong> (click the section title) so you can hide what you&#x27;re not using — your choices are remembered</li><li class="">Long lists now <strong>cap their height and scroll</strong> instead of pushing everything else off-screen</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.12.0</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Text &amp; sticky notes on boards</h3><ul><li class="">Add <strong>text labels</strong> and <strong>sticky notes</strong> to a board from the toolbar — for headers, captions, and annotations alongside your assets</li><li class=""><strong>Double-click to edit</strong> any text or note; pick from <strong>Heading / Body / Caption</strong> sizes, and choose a <strong>sticky-note color</strong> from a handful of presets</li><li class="">Text and notes <strong>resize freely</strong> (assets still keep their aspect ratio)</li><li class="">Text and notes are included when you <strong>export a board</strong> (and print to PDF), positioned just like on the canvas</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.11.4</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Boards remember their view</h3><ul><li class="">Each board now <strong>remembers its pan position and zoom level</strong> — reopen a board and it&#x27;s exactly where you left it</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.11.3</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Board zoom control</h3><ul><li class="">The board zoom <strong>+ / −</strong> buttons now step in clean <strong>5% increments</strong></li><li class="">You can also <strong>type an exact zoom %</strong> right in the box (Enter to apply, Esc to cancel)</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.11.2</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Board polish</h3><ul><li class="">Added a <strong>zoom control</strong> in the bottom-right of boards — current percentage on top, <strong>+ / −</strong> below (click the percentage to reset to 100%)</li><li class="">The right info panel is now <strong>hidden on boards</strong>, giving the canvas the full width</li><li class="">Fixed <strong>color palettes (and color blocks) disappearing when saving a board or gallery to PDF</strong> — background colors now print correctly</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.11.1</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Board improvements</h3><ul><li class="">Assets now drop onto a board at their <strong>real aspect ratio</strong> (no more cropped hero images), and resizing <strong>keeps that ratio</strong> so the whole image stays visible as you scale</li><li class="">Board images now show in full (contained) rather than cropped to fill</li><li class="">New <strong>Export</strong> button on boards — saves the board&#x27;s spatial layout as a self-contained, shareable HTML page (with a Save as PDF button), preserving each item&#x27;s position, size, and stacking</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.11.0</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Moodboards</h3><ul><li class="">New <strong>Boards</strong> section in the sidebar — create freeform canvases to arrange your inspiration spatially instead of in a grid</li><li class=""><strong>Add assets from your library</strong> onto a board, then <strong>drag to move, drag the corner to resize, and layer</strong> them (bring forward / send back)</li><li class=""><strong>Pan</strong> by dragging the canvas and <strong>zoom</strong> with the scroll wheel (zoom centers on your cursor); a reset button returns to 100%</li><li class="">Select an item to move/resize/layer/remove it; <strong>Delete</strong> removes it from the board (the asset stays in your library). Everything is saved automatically</li><li class="">Rename a board by double-clicking it; delete a board without touching its assets</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.10.1</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Export &amp; branding polish</h3><ul><li class="">Exported galleries now have a <strong>Save as PDF</strong> button right on the page — click it to open the print dialog straight to PDF, no menu-hunting</li><li class="">The <strong>Morgue app icon</strong> (rounded like an app icon) now appears on exported galleries, the changelog, and the privacy policy, replacing the old generated mark</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.10.0</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Export gallery</h3><ul><li class="">New <strong>Export</strong> button in the toolbar turns the current view into a <strong>self-contained, shareable HTML gallery</strong> — one file, no dependencies, perfect for sending a client or teammate</li><li class="">Exports exactly what you see: any folder, tag, color filter, or All Assets — images, palettes, and fonts together, titled by the current view</li><li class="">Each item carries its <strong>source link, attached color swatches, fonts, and tags</strong>; images are embedded directly so the file works offline and anywhere</li><li class="">Themed to match Morgue (and <strong>print-to-PDF friendly</strong> — open it and Save as PDF for a polished deck)</li><li class="">After exporting, the file is revealed in Finder</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.9.10</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Hover font inspector (extension)</h3><ul><li class="">New <strong>Hover &amp; pick from page</strong> button in the extension&#x27;s font section turns on an on-page inspector: hover any text to see its <strong>font family, weight, and size</strong> in a tooltip, and click to grab it</li><li class="">Grabbed fonts are remembered and <strong>pre-selected the next time you open Morgue</strong> on that page, ready to attach to the saved asset (they&#x27;re badged Local / Google / Web like auto-detected fonts)</li><li class="">A floating banner shows while inspecting; press <strong>Esc</strong> or click <strong>Done</strong> to exit. Links don&#x27;t navigate while the inspector is active</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.9.9</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Quick wins</h3><ul><li class=""><strong>Click a palette swatch to filter by that color.</strong> In an asset&#x27;s Color Palettes section, clicking any swatch jumps to All Assets filtered to that color — a one-click bridge from &quot;I like this color&quot; to &quot;show me everything with it&quot;</li><li class=""><strong>Open an asset&#x27;s source URL straight from the grid.</strong> Hovering a card with a source URL now shows an open-in-browser button, so you can jump to the original page without opening the asset first (the lightbox and details panel already supported this)</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.9.8</span>
-        
-        <span class="date">2026-06-08</span>
-      </div>
-      <h3>Font detection in the extension</h3><ul><li class="">The Morgue browser extension now <strong>detects the fonts used on the page you&#x27;re saving</strong>. A &quot;Fonts on this page&quot; list shows each typeface (with a live preview), ranked by how much it&#x27;s used</li><li class="">Each font is badged <strong>Local</strong> (installed on your machine), <strong>Google</strong> (matched against your Google Fonts catalog, if a key is set), or <strong>Web</strong></li><li class="">Tap the fonts you want and they&#x27;re <strong>attached to the saved asset</strong>, showing up in its Fonts section — alongside the screenshot, tags, and palette</li><li class="">Fonts are read only when you open the extension on a page (via <code>activeTab</code>), so nothing runs in the background</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.9.7</span>
-        
-        <span class="date">2026-06-07</span>
-      </div>
-      <h3>Fixes</h3><ul><li class="">Fixed the delete confirmation appearing <strong>behind</strong> the duplicate finder (and other modals) — confirmation dialogs now always sit on top, so deleting a duplicate works as expected</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.9.6</span>
-        
-        <span class="date">2026-06-07</span>
-      </div>
-      <h3>Better duplicate detection</h3><ul><li class="">Replaced the difference-hash with a <strong>DCT-based perceptual hash</strong>, which is much more reliable on flat, mostly-white screenshots (like landing-page heroes) where the old hash missed obvious near-duplicates</li><li class="">Retuned the Strict / Normal / Loose sensitivity for the new hash; hashes recompute once on the next scan</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.9.5</span>
-        
-        <span class="date">2026-06-07</span>
-      </div>
-      <h3>Clickable source URLs</h3><ul><li class="">The <strong>Source URL</strong> in the asset details panel (and lightbox) is now a real link — click it to open the page in your browser, with a dedicated open-in-browser button next to it</li><li class="">Editing the URL moved to a small pencil button, so a single click opens the page instead of dropping into edit mode</li><li class="">Bare URLs without a scheme are opened as <code>https://</code> automatically</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.9.4</span>
-        
-        <span class="date">2026-06-07</span>
-      </div>
-      <h3>Fixes &amp; polish</h3><ul><li class=""><strong>Duplicate finder now actually finds duplicates.</strong> Perceptual hashing moved from the browser canvas (which couldn&#x27;t reliably read image pixels) to native Rust image decoding — identical and near-identical screenshots are detected correctly. Existing hashes are reset once so they recompute accurately</li><li class="">Moved the <strong>keyboard-shortcuts</strong> button out of the toolbar (where it sat awkwardly between the item count and column controls) to the top-right of the page header</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.9.3</span>
-        
-        <span class="date">2026-06-07</span>
-      </div>
-      <h3>Duplicate finder</h3><ul><li class="">New <strong>Find Duplicates</strong> entry in the sidebar opens a finder that spots near-identical images across your whole library — not just exact copies, but crops, re-saves, and lightly edited versions</li><li class="">Uses a perceptual hash (dHash) computed once per image and cached, so repeat scans are instant</li><li class=""><strong>Strict / Normal / Loose</strong> sensitivity lets you dial how aggressively similar images are grouped</li><li class="">Each group keeps the <strong>oldest copy</strong> highlighted; delete extras individually or with one click (&quot;Keep oldest · Delete N&quot;), always behind a confirmation</li><li class="">Hashes are computed locally on your machine — nothing leaves your device</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.9.2</span>
-        
-        <span class="date">2026-06-07</span>
-      </div>
-      <h3>Keyboard-first navigation</h3><ul><li class="">A <strong>keyboard shortcuts</strong> reference now lives in Settings → <strong>Keys</strong>, with a quick-access keyboard icon in the grid toolbar</li><li class="">Drive the whole grid from the keyboard:</li><li class="sub"><strong>Arrow keys</strong> move a focus ring cell-by-cell (Left/Right) and row-by-row (Up/Down); <strong>Home/End</strong> jump to the first/last asset</li><li class="sub"><strong>Shift + arrows</strong> extend a multi-selection as you move</li><li class="sub"><strong>Space</strong> toggles the focused asset in/out of the selection</li><li class="sub"><strong>Enter</strong> opens the focused image in the lightbox (or selects non-images)</li><li class="sub"><strong>F</strong> stars/unstars the focused asset; <strong>⌘A / Ctrl+A</strong> selects everything visible</li><li class="sub"><strong>Delete / Backspace</strong> removes the focused asset or the whole selection</li><li class="">The focused cell always scrolls into view, and clicking a card moves keyboard focus there too — so mouse and keyboard stay in sync</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.9.1</span>
-        
-        <span class="date">2026-06-07</span>
-      </div>
-      <h3>Bulk operations</h3><ul><li class="">The multi-select bar now does more than delete. Select multiple assets (Cmd-click / Shift-click) and you can:</li><li class="sub"><strong>Star / Unstar</strong> the whole selection in one click (toggles based on whether they&#x27;re all already favorited)</li><li class="sub"><strong>Add to folder</strong> — pick any folder from a nested list</li><li class="sub"><strong>Tag</strong> — type to filter existing tags or create a new one on the fly, applied to every selected asset</li><li class="">Inline confirmation flashes after each action; selection stays put so you can chain operations (star → tag → move)</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.9.0</span>
-        
-        <span class="date">2026-06-07</span>
-      </div>
-      <h3>Color search</h3><ul><li class=""><strong>Filter your whole library by color.</strong> A new <strong>Color</strong> control in the filter bar opens a swatch board built from the colors actually in your library — click one (or pick a custom color) to show every asset whose palette contains that color</li><li class="">Matching uses perceptual color distance with <strong>Exact / Close / Loose</strong> tolerance, so &quot;find me everything with this orange&quot; works even when shades differ slightly</li><li class="">Composable with everything else — color stacks on top of folder, tag, favorites, and text-search filters</li><li class="">Matches across both images with extracted palettes and standalone palette assets</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.8.13</span>
-        
-        <span class="date">2026-06-05</span>
-      </div>
-      <h3>Custom domain</h3><ul><li class="">Changelog + privacy pages moving to <code>morgueapp.com</code> (<code>changelog.morgueapp.com</code>, <code>privacy.morgueapp.com</code>); in-app Changelog link now points to <code>changelog.morgueapp.com</code></li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.8.12</span>
-        
-        <span class="date">2026-06-05</span>
-      </div>
-      <h3>Menu-bar icon</h3><ul><li class="">Replaced the full-color app icon in the menu bar with a monochrome ghost <strong>template</strong> icon, so it adapts to light/dark menu bars and matches the system&#x27;s other icons (instead of looking out of place)</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.8.11</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Version + changelog links</h3><ul><li class="">Small footer in the Settings panel showing the app version and a <strong>Changelog</strong> link (opens the hosted changelog page)</li><li class="">Sidebar footer now shows the version + a Changelog link alongside the library location</li><li class="">Version is read from <code>package.json</code> so it stays in sync automatically</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.8.10</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Run in the background (menu-bar app)</h3><ul><li class="">Closing the window now <strong>hides</strong> Morgue instead of quitting, so the local capture bridge keeps serving the Chrome extension</li><li class="">Added a <strong>menu-bar (tray) icon</strong> with <strong>Open Morgue</strong> / <strong>Quit Morgue</strong> — quit fully from there (or Cmd+Q)</li><li class="">Clicking the dock icon reopens the window when it&#x27;s hidden (macOS)</li><li class="">Extension tab note updated to explain the background behavior</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.8.9</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Icons</h3><ul><li class="">&quot;Add to Chrome&quot; button now uses a globe icon</li><li class="">The &quot;Palette&quot; option in the dashboard Add menu now uses a palette icon</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.8.8</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Settings — Browser Extension tab</h3><ul><li class="">New <strong>Extension</strong> tab in Settings with an <strong>&quot;Add to Chrome&quot;</strong> button (opens the Chrome Web Store listing in the default browser) and a live <strong>capture-bridge status</strong> indicator (pings <code>localhost:57432</code>)</li><li class="">Wired to the real listing (item ID <code>mcbapocgkibpbpdkccpkakdcnobjdmhk</code>); the link goes live once the listing is approved</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.8.6</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Extension — Web Store prep</h3><ul><li class="">Removed the unused <code>scripting</code> permission from the extension manifest (unnecessary permissions get rejected in review)</li><li class="">Bundled the Space Mono + Inter fonts <strong>locally</strong> in the extension (<code>extension/fonts/</code>, latin subset, ~115KB) and switched <code>popup.html</code>/<code>popup.css</code> to local <code>@font-face</code> — no more <code>fonts.googleapis.com</code> requests, so the popup works offline and avoids remote-resource scrutiny</li><li class="">Extension bumped to 1.0.9 — re-zip and re-upload the package</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.8.4</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Fix — drag-and-drop now uses pointer events (works in the Tauri WebView)</h3><ul><li class="">Real cause found: Tauri&#x27;s OS-level drag-drop handler (kept on so images can be dragged in from Finder) intercepts native HTML5 drags — hence the green &quot;+&quot; cursor and drops never landing</li><li class="">Reworked in-app dragging to use pointer events instead (new <code>lib/drag.ts</code>): a floating ghost follows the cursor, folder rows are detected via <code>data-folder-id</code>, and drops are resolved manually</li><li class="sub">Folder grip (⠿): drag to reorder (top/bottom edge) or nest (middle)</li><li class="sub">Asset cards: drag onto a folder to add it there</li><li class="">Finder → app image import (the OS drag-drop) is unaffected</li><li class="">Disabled native dragging on thumbnail images so it can&#x27;t re-trigger the OS drag</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.8.3</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Fix — folder drag-and-drop (for real this time)</h3><ul><li class="">Root cause: making the folder *row* <code>draggable</code> stopped it from receiving drop events in the WebView, which broke folder dragging AND asset-to-folder drops</li><li class="">Folder rows are now plain drop targets again (restoring asset-to-folder), and dragging is done via a dedicated <strong>grip handle</strong> (⠿) on the left of each row — drag it to reorder (top/bottom edge) or nest (middle)</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.8.2</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>AI — auto-generated asset names (extension)</h3><ul><li class="">The extension&#x27;s &quot;✨ Suggest&quot; now also generates a concise, descriptive <strong>name</strong> from the page context (title + URL) plus the screenshot, and fills the name field — button relabeled &quot;Suggest Name, Palette &amp; Tags&quot;</li><li class="">Claude&#x27;s analysis returns a <code>name</code> alongside palette + tags; the <code>/ai/analyze</code> bridge accepts optional page title/URL as context</li><li class="">Settings AI tab: moved this from &quot;Planned&quot; to &quot;Enabled by your keys&quot;</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.8.1</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Fix — folder &amp; asset drag-and-drop</h3><ul><li class="">Drag-and-drop was broken (folders couldn&#x27;t be dragged/nested, and asset-to-folder stopped working). Cause: <code>dataTransfer.types.includes()</code> threw in the WebView (where <code>types</code> is a <code>DOMStringList</code>), aborting the drop handlers. Now uses an internal drag ref to tell folder vs asset drags apart — no reliance on the <code>types</code> API</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.8.0</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Folders — sorting &amp; drag-and-drop</h3><ul><li class="">New sort menu (next to the + in the Folders header): <strong>Newest first</strong> (default), <strong>A → Z</strong>, <strong>Z → A</strong>, and <strong>Manual</strong></li><li class="">Drag folders to reorder (drop on the top/bottom edge of a row) or nest them (drop on the middle of a row) — reordering switches to Manual sort and is persisted; guards against cycles and the 4-level depth limit</li><li class="">Sort preference persists across launches</li></ul><h3>Tags — alphabetical</h3><ul><li class="">Tags in the sidebar are now always sorted A → Z (no more count-based ordering)</li></ul><h3>Fonts — add to folders without favoriting</h3><ul><li class="">Each font card has an <strong>add-to-folder</strong> button (folder picker) — adds the font to a folder even if it&#x27;s not favorited (e.g. a client&#x27;s brand font you need handy but don&#x27;t want starred)</li><li class="">Favoriting and library-membership are now decoupled: the star toggles <strong>favorite</strong> only; a font added to a folder lives in the library un-favorited; un-favoriting a font that isn&#x27;t in any folder removes it from the library</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.7.3</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Settings — clickable console links</h3><ul><li class="">The &quot;console.cloud.google.com&quot; and &quot;console.anthropic.com&quot; references in the AI tab are now real links that open in your default browser (via the opener plugin) — Google&#x27;s goes straight to the Web Fonts Developer API page, Anthropic&#x27;s to the API keys page</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.7.2</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Google Fonts in the font browser</h3><ul><li class="">Add your Google Fonts API key in Settings → AI (Web Fonts Developer API)</li><li class="">Font browser gains a <strong>LOCAL / GOOGLE</strong> toggle; Google mode previews the full catalog (sorted by popularity), searchable, with live remote previews</li><li class="">Google font cards show a small &quot;G&quot; badge in the name box; save them to your library like local fonts</li><li class="">Catalog fetched through the Rust backend (key stays local); <code>http://</code> file URLs rewritten to <code>https://</code> for the webview; renders the first 90 results with search to narrow down</li><li class="">Backend: <code>set_google_fonts_key</code> / <code>google_fonts_key_status</code> / <code>google_fonts_list</code>; API-key config refactored to hold multiple keys in one file</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.7.1</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>AI — switched to Claude Haiku</h3><ul><li class="">AI palette/tag analysis now uses <code>claude-haiku-4-5</code> — faster and cheaper, with equivalent quality for this task</li></ul><h3>Palettes — editable after creation</h3><ul><li class="">Edit any palette in place: rename, change colors, add or remove swatches</li><li class="">Edit from the <strong>asset details panel</strong> (pencil next to each assigned palette) or from a <strong>palette&#x27;s own details</strong> (pencil in the header)</li><li class="">Edits apply everywhere the palette is used; the palette builder reused for both create &amp; edit (<code>updatePalette</code>)</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.7.0</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>AI — Claude palette + tag suggestions (app + extension)</h3><ul><li class=""><strong>Settings → AI:</strong> add your Anthropic (Claude) API key. Stored locally in <code>ai_config.json</code>, never sent anywhere but Anthropic, and shared with the extension via the local bridge. Connected/replace/remove states; key is never read back to the UI.</li><li class=""><strong>App (asset details):</strong> new &quot;✨ Suggest Palette &amp; Tags&quot; on image assets — analyzes the image with Claude (vision) and returns a suggested color palette + descriptive tags. Save &amp; assign the palette in one click; add tags individually or all at once (already-applied tags are marked).</li><li class=""><strong>Extension popup:</strong> &quot;✨ Suggest Palette &amp; Tags&quot; analyzes the captured screenshot; suggested tags merge into the tags field and a suggested palette is saved &amp; attached to the capture automatically (clearable).</li><li class=""><strong>Backend:</strong> new <code>ai</code> module (Anthropic Messages API, <code>claude-sonnet-4-6</code>), Tauri commands <code>set_ai_key</code> / <code>ai_key_status</code> / <code>ai_analyze_image</code>, and a <code>/ai/analyze</code> bridge endpoint. Capture endpoint extended to persist an attached palette.</li></ul><h3>App icon — temporarily disabled</h3><ul><li class="">Custom app-icon switching is disabled for now (still being refined); the app uses its default icon. The switcher is shown greyed-out in Settings.</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.6.9</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Dock icon — actually persists on first change now</h3><ul><li class="">The Dock caches a non-running app&#x27;s icon and only re-reads it on the app&#x27;s next launch — which is why an icon change only &quot;stuck&quot; after reopening. After writing the icon to the bundle, the Dock is now restarted (<code>killall Dock</code>, it relaunches instantly) so the change is reflected immediately, including the closed state</li><li class="">Removed the launch-time re-apply (no longer needed now that the icon lives on the <code>.app</code> bundle) so the Dock isn&#x27;t restarted on every app open</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.6.8</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Dock icon — fix first-change persistence &amp; live revert</h3><ul><li class="">After writing the icon to the <code>.app</code> bundle, the icon cache is now invalidated (<code>noteFileSystemChanged:</code>) so the Dock/Finder pick it up <strong>immediately</strong> — previously the change only stuck after a relaunch (the Dock kept the icon it cached at launch)</li><li class="">The live running tile is now set from the bundle&#x27;s *current* icon (<code>iconForFile:</code>), so selecting <strong>Default</strong> reverts the icon right away instead of waiting for a restart</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.6.7</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Dock icon — persists even when the app is closed</h3><ul><li class="">Selecting a custom icon now also writes it onto the <code>.app</code> bundle via <code>NSWorkspace setIcon:forFile:</code> (same mechanism as Finder&#x27;s &quot;paste custom icon&quot; — uses extended attributes, doesn&#x27;t touch the signed bundle contents), so the Dock &amp; Finder keep showing your chosen icon after quitting</li><li class="">Choosing &quot;Default&quot; clears the custom bundle icon, restoring the original</li><li class="">Fixed a latent bug: icon paths are now passed to <code>initWithUTF8String:</code> as null-terminated <code>CString</code>s</li><li class="">Note: bundle persistence only applies to the built <code>.app</code> (not <code>tauri dev</code>)</li></ul><h3>Lightbox — palette builder z-index</h3><ul><li class="">&quot;Create New Palette&quot; now opens above the full-screen image viewer (was rendering behind it)</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.6.6</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Dock icon — persists across launches</h3><ul><li class="">The selected app icon (3D / Dark) is now re-applied on every launch — macOS resets the dock icon to the bundle default each time, so we restore the saved choice on startup</li></ul><h3>Library — relocate to any folder + move assets</h3><ul><li class="">New <strong>&quot;Choose New Location&quot;</strong> in Settings → Library: move your library to an external drive or a cloud-synced folder (Google Drive, Dropbox, OneDrive…)</li><li class="">A <code>Morgue Library</code> folder is created inside the chosen location; all asset files are moved (instant rename on same volume, copy+delete across drives) and their DB paths re-linked automatically</li><li class="">Library root is persisted in <code>library_location.txt</code> and resolved fresh for imports + extension captures, so the new location takes effect immediately</li><li class="">Asset protocol scope broadened to include <code>/Volumes/**</code> (external drives); cloud drives under the home folder were already covered</li></ul><h3>Fonts — favoriting</h3><ul><li class="">Favoriting (saving) a font now also adds it to <strong>Favorites</strong>, not just All Assets</li></ul><h3>Planned (noted)</h3><ul><li class="">Google Fonts API key support — let users add their own key to browse &amp; preview Google Fonts in the font browser</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.6.5</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>App icons — size match</h3><ul><li class="">3D / Dark dock icons inset to the macOS icon grid (content at ~80.5% of the tile, standard transparent margin) so they match the Default icon&#x27;s footprint instead of reading oversized</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.6.4</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>App icons — new options + proper dock rendering</h3><ul><li class="">Icon options are now <strong>Default / 3D Ghost / Dark</strong></li><li class="sub">Default = the original flat orange ghost</li><li class="sub">3D Ghost = new sculpted ghost on orange squircle (<code>morgue-3d</code>)</li><li class="sub">Dark = cream ghost glowing on dark navy (<code>morgue-dark-clipped</code>)</li><li class=""><strong>Default now restores the real bundle icon</strong> at runtime (<code>setApplicationIconImage: nil</code>) instead of loading a low-res PNG — so it&#x27;s crisp, rounded, and correctly sized in the dock</li><li class="">3D / Dark dock icons regenerated as full-bleed <strong>1024px squircle PNGs</strong> with transparent macOS-radius corners (no more white corners on 3D, no more square edges on Dark) so they read as true app icons</li><li class="">Removed the now-unused <code>icon-flat.png</code> bundled resource</li></ul><h3>Settings — gear icon</h3><ul><li class="">Replaced the header Settings gear with a cleaner icon, stroke-weighted to match the other header icons</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.6.1</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Fix — picker width in lightbox sidebar</h3><ul><li class="">PalettePicker/FontPicker width now calculated from the parent panel (<code>aside</code> or <code>[data-theme]</code>) not the tiny <code>+</code> button</li><li class="">Min width 220px enforced so pickers are always readable</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.6.0</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Settings modal</h3><ul><li class="">Gear icon restored to header — opens Settings modal</li><li class="">Three tabs: Appearance, Library, AI</li><li class=""><strong>Appearance tab:</strong></li><li class="sub">App icon switcher — Flat / 3D / Ghost, persisted across restarts</li><li class="sub">Theme default — visual light/dark previews, same toggle as header</li><li class="sub">Icon change note (takes effect on next launch)</li><li class=""><strong>Library tab:</strong></li><li class="sub">Shows full library path</li><li class="sub">&quot;OPEN&quot; button reveals the library folder in Finder via <code>open -R</code></li><li class="sub">&quot;Relocate Library&quot; placeholder — coming next release</li><li class=""><strong>AI tab:</strong></li><li class="sub">Coming soon placeholder with planned features listed</li><li class="sub">Claude + OpenAI key input, palette extraction, tag suggestions, extension integration</li><li class="">New Rust command: <code>reveal_in_finder(path)</code> — opens Finder with the path selected</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.5.6</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>App — tag section spacing</h3><ul><li class="">Assigned tags now appear above the input (not below suggestion chips)</li><li class="">10px gap between assigned tags and the add-tag input</li><li class="">8px gap between suggestions and input</li><li class="">Clearer visual hierarchy: existing tags → input → suggestions</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.5.5</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>App — palette/font picker z-index fix</h3><ul><li class="">PalettePicker and FontPicker now render via <code>ReactDOM.createPortal</code> attached to <code>document.body</code> with <code>position: fixed</code> — they no longer get clipped by the info panel&#x27;s <code>overflow: auto</code> scroll container</li><li class="">Anchor position calculated with <code>getBoundingClientRect()</code> so dropdowns open directly below their trigger button regardless of scroll position</li></ul><h3>App — tag suggestions in info panel</h3><ul><li class="">TagAdder now shows existing tags as clickable chips when opened</li><li class="">Chips filter as you type — helps avoid duplicates like <code>#footer</code> vs <code>#Footer</code></li><li class="">Click a chip to add instantly; type and press Enter to create a new tag</li><li class="">Tags fetched from DB on open</li></ul><h3>Extension — icon updated to 3D transparent ghost</h3><ul><li class="">Using <code>morgue-3d-transparent.png</code> — rounded square, cleaner edges</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.5.4</span>
-        
-        <span class="date">2026-06-04 · Extension 1.0.4</span>
-      </div>
-      <h3>Extension — icon updated to 3D ghost (1.0.4)</h3><ul><li class="">Switched back to 3D ghost icon (<code>morgue-3d.png</code>) — orange rounded square with cream cloth ghost</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.5.4</span>
-        
-        <span class="date">2026-06-04 · Extension 1.0.3</span>
-      </div>
-      <h3>App — sidebar selection fix</h3><ul><li class="">Clicking a folder or tag now clears the selected asset — folder/tag panel shows immediately even if an image was previously selected</li><li class=""><code>selectLib</code>, <code>selectFolder</code>, <code>selectTag</code> in Sidebar all call <code>setSelectedAsset(null)</code></li></ul><h3>Extension — new icon (1.0.3)</h3><ul><li class="">Updated to flat 2D ghost icon — cleaner at small toolbar sizes</li><li class="">16/48/128px all regenerated from new source</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.5.3</span>
-        
-        <span class="date">2026-06-04 · Extension 1.0.2</span>
-      </div>
-      <h3>App — folder rename sidebar fix</h3><ul><li class="">Renaming a folder now updates the left sidebar immediately — <code>loadFolders()</code> added to the <code>assetVersion</code> effect so folder names sync on every mutation</li></ul><h3>Extension — polish (1.0.2)</h3><ul><li class="">Ghost icon applied to extension toolbar (16/48/128px)</li><li class="">Popup rounded corners (<code>border-radius: 12px</code>) — no more sharp square popup</li><li class="">White bleed removed — <code>html</code> background set to transparent, header clips to rounded top corners</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.5.2</span>
-        
-        <span class="date">2026-06-04 · Extension 1.0.1</span>
-      </div>
-      <h3>App — folder &amp; tag rename</h3><ul><li class="">Right info panel now shows a folder detail view when a folder is selected (no asset selected)</li><li class="">Right info panel shows a tag detail view when a tag is selected</li><li class="">Folder name editable inline — click to rename, Enter/blur saves, propagates everywhere</li><li class="">Tag name editable inline — <code>#</code> is fixed, edit the word part only, updates all assets instantly</li><li class="">Both panels show asset count and a hint about rename propagation</li><li class="">New DB functions: <code>updateFolderName</code>, <code>updateTagName</code>, <code>fetchFolderById</code>, <code>fetchTagById</code></li></ul><h3>Extension — custom folder dropdown (1.0.1)</h3><ul><li class="">Replaced native <code>&lt;select&gt;</code> with custom overlay dropdown matching the app&#x27;s &quot;Add New&quot; menu style</li><li class="">Folder icon, checkmark on selected item, animated chevron, closes on outside click</li><li class="">Dark/light themed, matches Morgue aesthetic</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.5.1</span>
-        
-        <span class="date">2026-06-04 · Extension 1.0.0</span>
-      </div>
-      <h3>App</h3><ul><li class="">Sidebar and info panel height restored to full height after resize handle refactor</li><li class="">Layout simplified — panels are direct flex children, <code>height: 100%</code> resolves correctly</li></ul><h3>Extension — v1.0.0</h3><ul><li class="">First stable release of the Morgue Chrome Extension</li><li class="">Matches full Morgue app theme (light + dark mode)</li><li class="">One-click capture with screenshot, name, URL, folder, and tag assignment</li><li class="">Tag suggestions pulled live from your Morgue library</li><li class="">Offline queue — captures saved locally and synced when app reopens</li><li class="">Right-click context menu for pages, images, and links</li><li class="">⌘⇧M keyboard shortcut</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.5.0</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>App — sidebar drag fix</h3><ul><li class="">Rewrote drag handles to use direct DOM style mutation during drag — no React re-renders, completely smooth</li><li class="">Sidebar and info panel now always fill 100% height (fixed <code>minHeight: 0</code> + <code>height: 100%</code> on flex containers)</li><li class="">Widths only commit to Zustand store on <code>mouseUp</code>, not every pixel of movement</li></ul><h3>App — HTTP server <code>/tags</code> endpoint</h3><ul><li class="">New <code>GET /tags</code> endpoint returns all existing tag names from SQLite</li><li class="">Used by extension to populate tag suggestions</li></ul><h3>Extension — tag improvements</h3><ul><li class="">Existing tags fetched from Morgue app and shown as clickable chip suggestions below the tags input</li><li class="">Chips update dynamically as you type — shows matching tags, filtered by current input</li><li class="">Click a chip to add it; click again to remove it</li><li class="">Tags correctly styled in dark mode (used CSS variables throughout)</li></ul><h3>Extension — dark mode polish</h3><ul><li class="">Select/dropdown dark mode: chevron arrow recoloured for dark bg, <code>option</code> elements inherit theme colours</li><li class="">Tag chips use <code>var(--accent)</code> and <code>var(--border)</code> — work correctly in both themes</li></ul><h3>Extension — screenshot rounded corners</h3><ul><li class="">Preview image and container now have <code>border-radius: 8px</code> for a softer feel</li></ul><h3>Extension — version → 0.5.0</h3><ul></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.4.0</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Extension — dark mode toggle</h3><ul><li class="">Sun/moon toggle button in popup header</li><li class="">Dark theme CSS variables (<code>[data-theme=&quot;dark&quot;]</code>) added to <code>popup.css</code></li><li class="">Preference persisted in <code>chrome.storage.local</code> — survives browser restarts</li><li class="">Toggle applies instantly without page reload</li></ul><h3>App — real-time extension sync</h3><ul><li class="">HTTP server now emits a Tauri event (<code>morgue-asset-added</code>) after every <code>/capture</code></li><li class="">React frontend listens via <code>@tauri-apps/api/event</code> and calls <code>invalidateAssets()</code></li><li class="">Assets, tags, and counts update instantly when extension saves — no restart needed</li></ul><h3>App — resizable sidebars</h3><ul><li class="">Left sidebar and right info panel are now drag-resizable</li><li class="">Drag handle on the inner border of each panel — <code>col-resize</code> cursor</li><li class="">Left sidebar: 200px min → 400px max</li><li class="">Right info panel: 220px min → 440px max</li><li class="">Widths persisted in Zustand store (saved across restarts)</li><li class="">Grid columns reflow dynamically as sidebar width changes</li></ul><h3>Crash fix</h3><ul><li class="">Fixed <code>tokio::spawn</code> panic in <code>.setup()</code> — Tauri&#x27;s setup runs before its tokio runtime</li><li class="">Now uses <code>std::thread::spawn</code> + <code>tokio::runtime::Runtime::new()</code> for the HTTP server thread</li><li class="">App no longer crashes on launch with 0.3.0 binary</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.3.0</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>Chrome Extension</h3><ul><li class="">New <code>extension/</code> directory — manifest v3 Chrome extension</li><li class=""><strong>Popup</strong> matches full Morgue editorial theme (Space Mono, warm off-white, orange accent, grain overlay)</li><li class="">4 popup states: offline (Morgue not running), main capture form, success, error</li><li class="">Auto-captures visible tab screenshot via <code>chrome.tabs.captureVisibleTab()</code></li><li class="">Pre-fills name (page title) and source URL from active tab</li><li class="">Folder picker dropdown (populated from Morgue&#x27;s real folder list)</li><li class="">Tags input with <code>#tag</code> syntax</li><li class=""><code>⌘⇧M</code> keyboard shortcut to open popup</li><li class="">Right-click context menu: &quot;Save page / image / link to Morgue&quot;</li><li class="">Offline queue — if Morgue is closed, captures are stored in <code>chrome.storage.local</code> and auto-flushed when the app comes back online (retries every 30s)</li><li class="">Extension icons: 16px, 48px, 128px from Morgue icon set</li></ul><h3>Localhost HTTP server (port 57432)</h3><ul><li class="">Axum HTTP server starts automatically when Morgue launches</li><li class="">CORS permissive — works with any Chrome extension origin</li><li class=""><code>GET /status</code> — returns <code>{ok, version}</code>, used by extension to detect if app is open</li><li class=""><code>GET /folders</code> — returns full folder tree from SQLite for the popup picker</li><li class=""><code>POST /capture</code> — fully wired end-to-end:</li><li class="sub">Decodes base64 PNG screenshot → saves to <code>~/Library/Application Support/com.morgue.morgue/library/{uuid}.png</code></li><li class="sub">Inserts <code>assets</code> record (type = image) with name, source URL, file path</li><li class="sub">Assigns to folder via <code>asset_folders</code> if folder selected</li><li class="sub">Upserts tags into <code>tags</code> + <code>asset_tags</code> tables</li><li class="sub">Assets appear in Morgue grid immediately on next refresh</li><li class="">Dependencies added: <code>axum 0.7</code>, <code>tokio 1</code> (full), <code>tower-http 0.5</code> (CORS), <code>base64 0.22</code>, <code>sqlx 0.8</code> (sqlite + runtime-tokio)</li></ul><h3>Other</h3><ul><li class="">Morgue app icon applied to extension icons</li><li class="">Version bumped 0.2.0 → 0.3.0 to reflect new compiled binary with HTTP server</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.2.0</span>
-        
-        <span class="date">2026-06-04</span>
-      </div>
-      <h3>App renamed</h3><ul><li class="">Renamed from <strong>InspoSaver</strong> to <strong>Morgue</strong></li><li class="">New app icon set applied (all sizes: 16, 32, 64, 128, 256, 512, 1024px + .icns + .ico)</li><li class="">DB renamed from <code>insposaver.db</code> → <code>morgue.db</code></li><li class="">Bundle identifier updated to <code>com.morgue.morgue</code></li></ul><h3>Core infrastructure</h3><ul><li class="">Tauri 2 + React + TypeScript + SQLite (embedded, zero infra)</li><li class="">Fully frameless window — custom traffic light buttons wired to Tauri window commands</li><li class="">Light / dark mode with instant toggle, persisted across restarts (no flash on load)</li><li class="">Grain texture overlay on background (CSS SVG noise, theme-aware)</li><li class="">Global autocorrect / autocapitalize disabled on all inputs</li></ul><h3>Asset grid</h3><ul><li class="">Import images via drag &amp; drop (OS-level, catches files dropped anywhere on window) or file picker</li><li class="">Duplicate drag import fixed — single global listener, React StrictMode-safe</li><li class="">Grid column count (4 / 5 / 6) persisted in store across restarts</li><li class="">Asset type filters: ALL / IMAGES / PALETTES / FONTS</li><li class="">Sidebar search wired to FTS5 full-text index (name, URL, notes)</li><li class=""><strong>Multi-select</strong>: ⌘/Ctrl+Click to add, Shift+Click for range, Escape to clear</li><li class="">Bulk delete with confirmation dialog when multiple selected</li><li class="">Keyboard Delete/Backspace to delete selected asset(s)</li><li class="">Favorite star on card hover (top-left); filled orange when favorited; always visible when active</li><li class="">Hover delete (×) button (top-right), turns red on hover</li><li class="">Double-click image card opens full lightbox viewer</li></ul><h3>Asset types</h3><ul><li class="">Real thumbnails via Tauri asset protocol (<code>convertFileSrc</code>)</li><li class="">Files copied to managed library directory (<code>~/Library/Application Support/com.morgue.morgue/library/</code>)</li><li class="">UUID-named files on disk, display name editable separately</li><li class="">Manual palette builder: name + up to 12 colour swatches</li><li class="">Colour picker (native OS) + hex input per swatch</li><li class="">Live stripe preview as you add/edit colours</li><li class="">Palette cards show colour stripe bands in the grid</li><li class="">Deleting a palette asset also removes the underlying palette record (no ghost on restart)</li><li class="">System font scanner: reads <code>/Library/Fonts</code>, <code>/System/Library/Fonts</code>, <code>~/Library/Fonts</code></li><li class="">Deduplication by (family, style) — fonts installed in multiple dirs shown once</li><li class="">Live <code>@font-face</code> injection — each card renders in the actual font</li><li class="">Editable preview text field (applies to all cards)</li><li class="">Favorites filter (SAVED button) to show only saved fonts</li><li class="">Star button matches main grid style</li></ul><h3>Info panel (right sidebar)</h3><ul><li class="">Favorite star toggle</li><li class="">Editable filename (click to rename — updates grid card immediately)</li><li class="">Editable source URL (hidden for palettes/fonts — used internally)</li><li class="">Folder assignment (assign/remove asset from any folder)</li><li class="">Color palette assignment picker (assign saved palettes; create new from picker)</li><li class="">Font assignment picker (assign saved fonts; navigate to Browse Fonts from picker)</li><li class="">Tags (add inline, click to remove)</li><li class="">Notes (textarea, saves on blur)</li><li class="">Date added</li><li class="">DELETE ASSET button (hidden for font assets — system files not managed by app)</li></ul><h3>Folders</h3><ul><li class="">Real SQLite-backed folders (not hardcoded)</li><li class="">Hierarchical tree, up to 4 levels deep</li><li class="">Inline input to create root folders (no native dialog — works in Tauri WebKit)</li><li class="">Subfolder creation: hover any folder → <code>+</code> button appears inline</li><li class="">Folder counts show number of assets assigned</li><li class="">Drag asset card from grid → drop on sidebar folder to assign</li><li class="">Click folder → filters grid to that folder&#x27;s assets</li><li class="">Auto-assigns newly imported images to the current folder when viewing one</li><li class="">Delete folder (with confirmation): removes folder, not assets</li><li class="">Folder counts refresh when assets are modified</li></ul><h3>Tags</h3><ul><li class="">Real tags with counts loaded from DB</li><li class="">Click tag in sidebar → filters grid</li><li class="">Tags list refreshes when new tags are added (no restart needed)</li><li class="">Delete tag (with confirmation): removes from all assets, not the assets themselves</li><li class="">Tags also editable per-asset in the info panel</li></ul><h3>Lightbox (full image viewer)</h3><ul><li class="">Two-panel: dark image area (left) + metadata sidebar (right)</li><li class="">Sidebar respects app theme (light/dark)</li><li class="">Keyboard: ← → to navigate images, Escape to close</li><li class="">Prev/Next arrow buttons with frosted dark circle style</li><li class="">N / total counter</li><li class="">Sidebar fully editable: filename, source URL, folders, palettes, fonts, tags, notes</li><li class="">Favorite star in sidebar header</li><li class="">Palette assets show colour stripe view instead of image</li><li class="">Navigation limited to image-type assets (palettes/fonts excluded)</li></ul><h3>Color palette builder modal</h3><ul><li class="">Triggered from ADD menu or from Palette picker in info panel</li><li class="">After creation, auto-assigns to the asset that opened the picker</li></ul><h3>Confirmation dialogs</h3><ul><li class="">Delete asset, delete folder, delete tag, bulk delete — all gated behind confirm</li><li class="">Escape cancels, Enter confirms</li><li class="">Each dialog explains what will/won&#x27;t be deleted</li></ul><h3>Bug fixes</h3><ul><li class="">React hooks violation fixed (IIFE <code>useState</code> in JSX → extracted to proper components)</li><li class=""><code>morgue.db</code> migration mismatch fixed (<code>lib.rs</code> now registers migrations for correct DB name)</li><li class="">Palette ghost-on-restart fixed (deleting palette asset now cascades to <code>palettes</code> table)</li><li class="">Font unfavorite fixed (delete button correctly removes DB record)</li><li class=""><code>window.prompt</code> replaced with inline inputs (blocked in Tauri WebKit)</li><li class="">Sidebar tags now refresh immediately when new tags are added</li></ul>
-    </section>
-    <section class="ver">
-      <div class="ver-head">
-        <span class="num">0.1.0</span>
-        
-        <span class="date">2026-06-03</span>
-      </div>
-      <h3>Initial build (InspoSaver)</h3><ul><li class="">Tauri 2 scaffold with React + TypeScript + Tailwind CSS v4</li><li class="">SQLite schema with migrations: assets, tags, folders, palettes, palette_colors, asset_fonts, asset_palettes, asset_folders, FTS5 virtual table</li><li class="">Basic asset grid with placeholder mock data</li><li class="">Sidebar layout with hardcoded folders/tags</li><li class="">Info panel shell</li><li class="">Light/dark theme toggle with CSS custom properties</li><li class="">Custom frameless window with traffic light buttons</li><li class="">Font scanner (Rust) reading system font directories</li><li class="">Font browser with <code>@font-face</code> live preview</li></ul>
-    </section>
-    <footer>Questions? <a href="mailto:support@morgueapp.com">support@morgueapp.com</a></footer>
+    <footer>Morgue — the local-first design reference manager for Mac · <a href="https://www.morgueapp.com">morgueapp.com</a> · <a href="mailto:support@morgueapp.com">support@morgueapp.com</a></footer>
   </div>
 </body>
 </html>
