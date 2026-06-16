@@ -2,6 +2,18 @@
 
 ---
 
+## [1.2.0] — 2026-06-16
+
+### Video & PDF, find similar, font pairings, accessibility & backups
+- **Video & PDF support** — save, preview, and **play video** files and open **PDFs** right alongside your images, each with an auto-generated thumbnail so your grid stays scannable
+- **Find Similar** — pick any image and **“More like this”** surfaces visually similar saves from your library
+- **Font pairings** — get **suggested typeface pairings** for any font, right in the info panel
+- **Automatic backups** — schedule **recurring backups** of your library (with how-many-to-keep retention), or back up on demand anytime — full archive or catalog-only
+- **High-contrast themes** — accessible **high-contrast light and dark** modes for better legibility
+- Improvement: larger, **macOS-native window corners** to match the latest system look
+
+---
+
 ## [1.1.0] — 2026-06-12
 
 ### Color & type tools, plus sharper filtering
