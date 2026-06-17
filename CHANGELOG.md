@@ -2,6 +2,17 @@
 
 ---
 
+## [1.3.0] — 2026-06-17
+
+### Search inside screenshots, a safety net for deletes, and bring-your-own AI
+- **Text search (OCR)** — Morgue now reads the **text inside your screenshots** on-device, so searching a word that appears in an image surfaces it. No setup, no AI key, nothing leaves your Mac — it just works the next time you search
+- **Trash & Restore** — deleting an asset now moves it to a **Trash** instead of removing it for good. Browse the Trash anytime to **Restore** a save or **Delete Forever**, and **Empty Trash** when you're sure. Accidental deletes are now undoable
+- **Bring your own AI key** — use **your own AI provider** for name & palette suggestions: **Claude, OpenAI, Gemini**, or a **local model** (Ollama / LM Studio / any OpenAI-compatible endpoint). Pick the provider and model in Settings → AI; the Suggest button shows which one will run
+- **AI auto-tagging (optional)** — turn it on and AI suggestions also propose **descriptive tags**, which make assets easier to find in search and sharpen **Find Similar**
+- AI remains **fully optional** — every feature works without a key
+
+---
+
 ## [1.2.0] — 2026-06-16
 
 ### Video & PDF, find similar, font pairings, accessibility & backups
