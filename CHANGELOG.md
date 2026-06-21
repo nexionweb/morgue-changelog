@@ -2,6 +2,16 @@
 
 ---
 
+## [1.4.0] — 2026-06-17
+
+### Mark up your references, compare them side by side, present, and fly around with ⌘K
+- **Annotations** — mark up any saved image right inside Morgue with **arrows, boxes, ellipses, highlights, a freehand pen, and text notes**. Pick a color, move/resize/recolor anything, and **save a flattened copy** to share. Open the tools from the image viewer or the details panel; annotated saves get a small badge in your library
+- **Compare** — select 2–4 references and view them **side by side** to weigh design directions at a glance
+- **Presentation mode** — play any folder, tag, or collection as a **full-screen slideshow**, with arrow-key navigation and optional auto-advance — great for design reviews and moodboard walkthroughs
+- **Command palette (⌘K)** — press **⌘K** from anywhere to instantly jump to a page, **board**, folder, tag, or font, run a quick action, or kick off a search — all from the keyboard
+
+---
+
 ## [1.3.0] — 2026-06-17
 
 ### Search inside screenshots, a safety net for deletes, and bring-your-own AI
