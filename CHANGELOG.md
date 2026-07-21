@@ -2,6 +2,16 @@
 
 ---
 
+## [1.5.0] — 2026-06-26
+
+### Drag images in from anywhere, jot notes, and make the sidebar yours
+- **Quick Drop** — turn on a small shelf that **pops out at the edge of your screen the moment you start dragging an image**, file, or link — even when Morgue is in the background. Drop onto it to save straight to your library, then it tucks away. Enable it in **Settings → Appearance**
+- **Scratchpad** — a freeform **notes space** for ideas, to-dos, and references, right in the sidebar. Rich text with **headings, checklists, bullet & numbered lists, and bold/italic/underline** — type **`/`** for a quick command menu, or use the toolbar. Autosaves as you go
+- **Customizable sidebar** — **drag the sections** (Collections, Folders, Boards, Tags, Fonts) into the order you want, and **collapse any of them** — including Collections now. Your layout is remembered
+- Fix: **bold text** now renders correctly throughout the app
+
+---
+
 ## [1.4.0] — 2026-06-17
 
 ### Mark up your references, compare them side by side, present, and fly around with ⌘K
