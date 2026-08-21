@@ -2,6 +2,25 @@
 
 ---
 
+## [1.7.0] — 2026-08-21
+
+### Let your AI tools use your library, and see every save's palette at a glance
+- **AI tool access (MCP)** — connect **Claude, Claude Code, Codex, Antigravity** and other MCP-aware tools straight to your library. They can **search by tag, text or color**, pull the **palette** off a save, and **look at the reference itself** while they work — so "design something in the style of my #ui saves" actually uses your saves. It runs **entirely on your Mac, read-only**, and only while an AI tool has it open; nothing is uploaded. Copy-paste setup for every provider lives in **Settings → MCP** (requires Node 22+)
+- **Redesigned library cards** — every card now shows its **attached color palette** right beneath the title, with a larger, more readable name. The image sits in its own frame with the hover controls tucked inside it, so nothing ever covers the artwork
+- Fix: dark swatches no longer disappear against dark cards — color chips now carry an outline that adapts to your theme
+- Fix: long reference names no longer stretch grid columns out of alignment
+
+---
+
+## [1.6.0] — 2026-07-20
+
+### See your library's colors and type at a glance, make specimens, and rate your best
+- **Colors & Fonts** — a new **library-wide view** of every color and typeface across all your saves. Browse them all, **click any swatch or font** to filter your library to what uses it, and **export the whole set** — colors as CSS, SCSS, Tailwind, JSON, hex, or `.ase`; fonts as CSS, SCSS, JSON, or a plain list. Find it in the sidebar under **Colors & Fonts**
+- **Type specimens** — open a **full type specimen** for any font: a size ramp, weights, the complete character set, and your own **editable sample line** — then **export it as a PNG**. Open one from the Colors & Fonts page or any card in the Font Browser
+- **Star ratings** — **rate any reference 1–5 stars** from the info panel, then **sort your grid by top-rated** and **filter by a minimum rating** to surface your best picks fast
+
+---
+
 ## [1.5.0] — 2026-06-26
 
 ### Drag images in from anywhere, jot notes, and make the sidebar yours
